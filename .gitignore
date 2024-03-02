@@ -1,0 +1,17 @@
+.cache/
+.dap-breakpoints
+.local/
+.lsp-session-v1
+.mc-lists.el
+ac-comphist.dat
+codeium.el/
+codeium/
+elpa/
+ido.last
+projectile-bookmarks.eld
+projects
+recentf
+smex-items
+straight/
+tramp
+transient/
