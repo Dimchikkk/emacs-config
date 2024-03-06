@@ -34,6 +34,7 @@
 		     smex
 		     swiper
                      sudo-edit
+                     tabby-mode
                      typescript-mode
 		     vundo
                      yaml-mode
@@ -221,3 +222,9 @@
 
 ;; Load custom keybindings.
 (require #'keys)
+
+;; Requires tabby running locally
+(use-package tabby-mode
+  :ensure t
+  :custom
+  (tabby-api-url "http://localhost:8080"))
