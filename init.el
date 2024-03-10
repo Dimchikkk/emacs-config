@@ -2,6 +2,7 @@
                      ace-jump-mode
                      browse-kill-ring
 		     counsel
+                     company
                      default-text-scale
                      deadgrep
                      dockerfile-mode
@@ -34,7 +35,6 @@
 		     smex
 		     swiper
                      sudo-edit
-                     tabby-mode
                      typescript-mode
 		     vundo
                      yaml-mode
@@ -223,8 +223,4 @@
 ;; Load custom keybindings.
 (require #'keys)
 
-;; Requires tabby running locally
-(use-package tabby-mode
-  :ensure t
-  :custom
-  (tabby-api-url "http://localhost:8080"))
+(add-hook 'after-init-hook 'global-company-mode)
