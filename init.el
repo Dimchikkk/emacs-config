@@ -37,6 +37,7 @@
                      sudo-edit
                      typescript-mode
 		     vundo
+                     vlf
                      yaml-mode
 		     wgrep
                      which-key
@@ -132,6 +133,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("package-lock.json" . text-mode))
 
 (add-hook 'java-mode-hook #'lsp)
 (add-hook 'js2-mode-hook #'lsp)
@@ -224,3 +226,4 @@
 (require #'keys)
 
 (add-hook 'after-init-hook 'global-company-mode)
+(setq vlf-application 'dont-ask)
