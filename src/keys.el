@@ -1,5 +1,21 @@
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode Keymap.")
 
+(defun evil-insert-space-left ()
+  "Insert a space to the left of the cursor in normal mode."
+  (interactive)
+  (let ((pos (point)))
+    (insert " ")
+    (goto-char pos)))
+
+(defun evil-insert-space-right ()
+  "Insert a space to the right of the cursor in normal mode."
+  (interactive)
+  (save-excursion
+    (let ((pos (point)))
+      (forward-char)
+      (insert " ")
+      (goto-char pos))))
+
 (define-key my-keys-minor-mode-map "\C-s"              #'swiper-isearch)
 (define-key my-keys-minor-mode-map (kbd "C-c )")       #'kmacro-end-macro)
 (define-key my-keys-minor-mode-map (kbd "C-c (")       #'kmacro-start-macro)
@@ -26,7 +42,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c C-l")     #'shell)
 (define-key my-keys-minor-mode-map (kbd "C-c RET")     #'projectile-switch-project)
 (define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'projectile-find-file)
-(define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'projectile-find-file)
+(define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-grep-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-r")     #'recentf-open-files)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c n")       #'er/expand-region)
@@ -43,7 +59,8 @@
 (define-key my-keys-minor-mode-map (kbd "C-c l")       #'shell-command)
 (define-key my-keys-minor-mode-map (kbd "C-c m")       #'magit-status-here)
 (define-key my-keys-minor-mode-map (kbd "C-c b")       #'toggle-full-window)
-(define-key my-keys-minor-mode-map (kbd "C-c o")       #'find-grep-dired)
+(define-key my-keys-minor-mode-map (kbd "C-l")         #'evil-insert-space-right)
+(define-key my-keys-minor-mode-map (kbd "C-h")         #'evil-insert-space-left)
 (define-key my-keys-minor-mode-map (kbd "C-c q")       #'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "C-c r")       #'query-replace-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c s")       #'projectile-find-references)
