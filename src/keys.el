@@ -1,5 +1,11 @@
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode Keymap.")
 
+(defun my-forward-word ()
+  "Move point forward by word, considering underscores as part of words."
+  (interactive)
+  (modify-syntax-entry ?_ "w")
+  (forward-word))
+
 (defun evil-insert-space-left ()
   "Insert a space to the left of the cursor in normal mode."
   (interactive)
@@ -20,7 +26,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c )")       #'kmacro-end-macro)
 (define-key my-keys-minor-mode-map (kbd "C-c (")       #'kmacro-start-macro)
 (define-key my-keys-minor-mode-map (kbd "C-c ,")       #'kmacro-end-and-call-macro)
-(define-key my-keys-minor-mode-map (kbd "C-c /")       #'councel-compilation-errors)
+(define-key my-keys-minor-mode-map (kbd "C-c /")       #'counsel-compilation-errors)
 (define-key my-keys-minor-mode-map (kbd "C-/")         #'next-error)
 (define-key my-keys-minor-mode-map (kbd "C-?")         #'previous-error)
 (define-key my-keys-minor-mode-map (kbd "C--")         #'default-text-scale-decrease)
