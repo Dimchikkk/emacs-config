@@ -27,11 +27,12 @@
                      htmlize
 		     js2-mode
 		     lsp-mode
+                     lsp-ui
 		     magit
                      olivetti
 		     pretty-mode
                      projectile
-		     rustic
+	             rustic
 		     smex
 		     swiper
                      sudo-edit
@@ -63,7 +64,6 @@
  
 (menu-bar-mode -1) 
 (tool-bar-mode -1)
-(scroll-bar-mode -1)
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
 
@@ -101,12 +101,15 @@
   (rustic-analyzer-command '("rustup" "run" "nightly" "rust-analyzer")))
 
 (setq rustic-lsp-client 'eglot)
+(setq lsp-auto-guess-root nil)
+(setq lsp-rust-analyzer-cargo-watch-command "")
+(setq lsp-ui-peek-always-show t)
 
-(defun on-rustic-save()
-  (when (eq major-mode 'rustic-mode)
-    (rustic-cargo-fmt)))
+;; (defun on-rustic-save()
+;;   (when (eq major-mode 'rustic-mode)
+;;     (rustic-cargo-fmt)))
 
-(add-hook 'after-save-hook 'on-rustic-save)
+;; (add-hook 'after-save-hook 'on-rustic-save)
 
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
@@ -229,4 +232,3 @@
 (setq vlf-application 'dont-ask)
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
-
