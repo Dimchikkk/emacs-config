@@ -64,6 +64,7 @@
  
 (menu-bar-mode -1) 
 (tool-bar-mode -1)
+(customize-set-variable 'scroll-bar-mode nil)
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
 
