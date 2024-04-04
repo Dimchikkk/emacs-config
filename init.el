@@ -99,7 +99,7 @@
 
 (use-package rustic
   :custom
-  (rustic-analyzer-command '("rustup" "run" "nightly" "rust-analyzer")))
+  (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer")))
 
 (setq rustic-lsp-client 'eglot)
 (setq lsp-auto-guess-root nil)
