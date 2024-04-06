@@ -1,6 +1,5 @@
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode Keymap.")
 
-;; C-c n is free to use
 (define-key my-keys-minor-mode-map "\C-s"              #'swiper-isearch)
 (define-key my-keys-minor-mode-map (kbd "C-c )")       #'kmacro-end-macro)
 (define-key my-keys-minor-mode-map (kbd "C-c (")       #'kmacro-start-macro)
@@ -22,7 +21,8 @@
 (define-key my-keys-minor-mode-map (kbd "C-c C-f")     #'ffap)
 (define-key my-keys-minor-mode-map (kbd "C-c C-l")     #'shell)
 (define-key my-keys-minor-mode-map (kbd "C-c RET")     #'projectile-switch-project)
-(define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'projectile-find-file)
+(define-key my-keys-minor-mode-map (kbd "C-c n")       #'projectile-find-file)
+(define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'counsel-fzf)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-grep-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-r")     #'recentf-open-files)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch-thing-at-point)
