@@ -235,3 +235,4 @@
 (setq vlf-application 'dont-ask)
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
+(setenv "FZF_DEFAULT_COMMAND" "rg --files")
