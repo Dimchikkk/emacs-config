@@ -22,7 +22,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c C-l")     #'shell)
 (define-key my-keys-minor-mode-map (kbd "C-c RET")     #'projectile-switch-project)
 (define-key my-keys-minor-mode-map (kbd "C-c n")       #'projectile-find-file)
-(define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'counsel-fzf)
+(define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'counsel-file-jump)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-grep-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-r")     #'recentf-open-files)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch-thing-at-point)
