@@ -34,7 +34,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c f")       #'ido-find-file)
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep)
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
-(define-key my-keys-minor-mode-map (kbd "C-c \\")       #'lsp-ui-imenu)
+(define-key my-keys-minor-mode-map (kbd "C-c ;")       #'lsp-ui-imenu)
 (define-key my-keys-minor-mode-map (kbd "C-c j")       #'dired-jump)
 (define-key my-keys-minor-mode-map (kbd "C-c k")       #'evil-join)
 (define-key my-keys-minor-mode-map (kbd "C-c l")       #'shell-command)
