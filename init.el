@@ -230,6 +230,8 @@
 (require #'keys)
 
 (add-hook 'after-init-hook 'global-company-mode)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq gc-cons-threshold 100000000)
 (setq vlf-application 'dont-ask)
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
