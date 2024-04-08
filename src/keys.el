@@ -1,6 +1,7 @@
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode Keymap.")
 
-(define-key my-keys-minor-mode-map "\C-s"              #'swiper-isearch)
+(define-key evil-normal-state-map (kbd "C-r")          #'isearch-backward-regexp)
+(define-key my-keys-minor-mode-map "\C-s"              #'isearch-forward-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c )")       #'kmacro-end-macro)
 (define-key my-keys-minor-mode-map (kbd "C-c (")       #'kmacro-start-macro)
 (define-key my-keys-minor-mode-map (kbd "C-c ,")       #'kmacro-end-and-call-macro)
@@ -25,7 +26,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'counsel-fzf)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-grep-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-r")     #'recentf-open-files)
-(define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch-thing-at-point)
+(define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'isearch-forward-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-u")         #'ido-switch-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c c")       #'deadgrep)
