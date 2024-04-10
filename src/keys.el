@@ -25,6 +25,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c n")       #'projectile-find-file)
 (define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'counsel-fzf)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-grep-dired)
+(define-key my-keys-minor-mode-map (kbd "C-c o")       #'occur)
 (define-key my-keys-minor-mode-map (kbd "C-c C-r")     #'recentf-open-files)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'isearch-forward-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
