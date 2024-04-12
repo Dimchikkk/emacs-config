@@ -29,6 +29,7 @@
 		     lsp-mode
                      lsp-ui
 		     magit
+                     magit-todos
                      olivetti
 		     pretty-mode
                      projectile
@@ -237,3 +238,6 @@
 (setq bidi-inhibit-bpa t)
 (setenv "FZF_DEFAULT_COMMAND" "rg --files")
 (setq magit-git-executable (locate-file "git" exec-path))
+(use-package magit-todos
+  :after magit
+  :config (magit-todos-mode 1))
