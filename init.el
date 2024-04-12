@@ -238,10 +238,10 @@
 (setq bidi-inhibit-bpa t)
 (setenv "FZF_DEFAULT_COMMAND" "rg --files")
 (setq magit-git-executable (locate-file "git" exec-path))
-(use-package magit-todos
-  :after magit
-  :config (magit-todos-mode 1))
 (setq hl-todo-keyword-faces
       '(("TODO"   . "#A020F0")
         ("FIXME"  . "#A020F0")
-        ("IDEA"  .  "#1E90FF")))
+        ("NOTE"  .  "#1E90FF")))
+(use-package magit-todos
+  :after magit
+  :config (magit-todos-mode 1))
