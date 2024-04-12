@@ -241,3 +241,7 @@
 (use-package magit-todos
   :after magit
   :config (magit-todos-mode 1))
+(setq hl-todo-keyword-faces
+      '(("TODO"   . "#A020F0")
+        ("FIXME"  . "#A020F0")
+        ("IDEA"  .  "#1E90FF")))
