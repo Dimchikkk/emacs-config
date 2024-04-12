@@ -241,7 +241,7 @@
 (setq hl-todo-keyword-faces
       '(("TODO"   . "#A020F0")
         ("FIXME"  . "#A020F0")
-        ("NOTE"  .  "#1E90FF")))
+        ("IDEA"  .  "#1E90FF")))
 (use-package magit-todos
   :after magit
   :config (magit-todos-mode 1))
