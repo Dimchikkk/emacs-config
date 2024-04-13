@@ -80,11 +80,10 @@
 (define-key ido-buffer-completion-map (kbd "C-n") #'ido-next-match)
 (define-key ido-buffer-completion-map (kbd "C-p") #'ido-prev-match)
 
-(define-key evil-normal-state-map (kbd "C-p") nil)
 (define-key evil-normal-state-map (kbd "C-o") nil)
-(define-key evil-motion-state-map (kbd "C-p") #'evil-jump-backward)
-(define-key evil-normal-state-map (kbd "C-n") nil)
-(define-key evil-motion-state-map (kbd "C-n") #'evil-jump-forward)
+(define-key evil-motion-state-map (kbd "C-o") #'evil-jump-backward)
+(define-key evil-normal-state-map (kbd "C-i") nil)
+(define-key evil-motion-state-map (kbd "C-i") #'evil-jump-forward)
 
 (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
