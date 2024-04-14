@@ -18,7 +18,6 @@
                      evil-mc
 		     exec-path-from-shell 
                      expand-region
-                     fix-word
                      flx-ido
                      go-mode
                      heaven-and-hell
