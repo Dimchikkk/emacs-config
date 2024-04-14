@@ -32,7 +32,7 @@
                      olivetti
 		     pretty-mode
                      projectile
-	             rustic
+                     rust-mode
 		     smex
 		     swiper
                      sudo-edit
@@ -97,20 +97,13 @@
 (smex-initialize) ; Can be omitted. This might cause a (minimal) delay
                   ; when Smex is auto-initialized on its first run.
 
-(use-package rustic
-  :custom
-  (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer")))
+(require 'rust-mode)
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+(add-hook 'rust-mode-hook 'eglot-ensure)
 
-(setq rustic-lsp-client 'eglot)
 (setq lsp-auto-guess-root nil)
 (setq lsp-rust-analyzer-cargo-watch-command "")
 (setq lsp-ui-peek-always-show t)
-
-;; (defun on-rustic-save()
-;;   (when (eq major-mode 'rustic-mode)
-;;     (rustic-cargo-fmt)))
-
-;; (add-hook 'after-save-hook 'on-rustic-save)
 
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)

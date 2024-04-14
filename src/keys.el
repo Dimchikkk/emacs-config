@@ -94,9 +94,9 @@
 
 (define-key projectile-mode-map (kbd "C-c p") #'projectile-command-map)
 
-(define-key rustic-mode-map (kbd "C-4") #'rustic-cargo-build)
-(define-key rustic-mode-map (kbd "C-5") #'rustic-cargo-run)
-(define-key rustic-mode-map (kbd "C-7") #'rustic-cargo-test)
+(define-key rust-mode-map (kbd "C-4") #'rust-compile)
+(define-key rust-mode-map (kbd "C-5") #'rust-run)
+(define-key rust-mode-map (kbd "C-7") #'rust-test)
 
 (define-key ido-file-completion-map (kbd "C-n") #'ido-next-match)
 (define-key ido-file-completion-map (kbd "C-p") #'ido-prev-match)
