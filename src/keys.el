@@ -33,6 +33,10 @@
       (downcase-region xp1 xp2)
       (put this-command 'state 0)))))
 
+(defun occur-thing-at-point()
+  (interactive)
+  (let ((term (thing-at-point 'word t))) (occur term)))
+
 (define-key evil-normal-state-map  (kbd "C-r")         #'isearch-backward-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'isearch-forward-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-s")         #'isearch-forward-regexp)
@@ -58,8 +62,9 @@
 (define-key my-keys-minor-mode-map (kbd "C-c C-l")     #'shell)
 (define-key my-keys-minor-mode-map (kbd "C-c RET")     #'projectile-switch-project)
 (define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'counsel-fzf)
-(define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-grep-dired)
-(define-key my-keys-minor-mode-map (kbd "C-c o")       #'occur)
+(define-key my-keys-minor-mode-map (kbd "M-o")         #'find-grep-dired)
+(define-key my-keys-minor-mode-map (kbd "C-c o")       #'occur-thing-at-point)
+(define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'occur)
 (define-key my-keys-minor-mode-map (kbd "C-c n")       #'recentf-open-files)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c c")       #'deadgrep)
