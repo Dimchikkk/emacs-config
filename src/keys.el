@@ -35,7 +35,7 @@
 
 (defun occur-thing-at-point()
   (interactive)
-  (let ((term (thing-at-point 'word t))) (occur term)))
+  (let ((term (thing-at-point 'symbol t))) (occur term)))
 
 (define-key evil-normal-state-map  (kbd "C-r")         #'isearch-backward-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'isearch-forward-thing-at-point)
