@@ -37,8 +37,8 @@
   (interactive)
   (let ((term (thing-at-point 'symbol t))) (occur term)))
 
-(define-key evil-normal-state-map  (kbd "C-r")         #'swiper)
-(define-key my-keys-minor-mode-map (kbd "C-s")         #'swiper-thing-at-point)
+(define-key evil-normal-state-map  (kbd "C-s")         #'swiper)
+(define-key my-keys-minor-mode-map (kbd "C-r")         #'swiper-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c )")       #'kmacro-end-macro)
 (define-key my-keys-minor-mode-map (kbd "C-c (")       #'kmacro-start-macro)
 (define-key my-keys-minor-mode-map (kbd "C-c ,")       #'kmacro-end-and-call-macro)
