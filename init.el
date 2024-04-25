@@ -10,7 +10,6 @@
                      doom-modeline
                      doom-themes
                      dumb-jump
-                     eglot
 		     evil
                      evil-commentary
 		     evil-collection
@@ -99,7 +98,6 @@
 
 (require 'rust-mode)
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
-(add-hook 'rust-mode-hook 'eglot-ensure)
 
 (setq lsp-auto-guess-root nil)
 (setq lsp-rust-analyzer-cargo-watch-command "")
