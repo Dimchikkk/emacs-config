@@ -74,8 +74,8 @@
   :config
   (setq heaven-and-hell-theme-type 'dark) ;; Omit to use light by default
   (setq heaven-and-hell-themes
-        '((light . modus-operandi)
-          (dark . doom-vibrant)))
+        '((light . adwaita)
+          (dark . deeper-blue)))
   ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
   :hook (after-init . heaven-and-hell-init-hook)
