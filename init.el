@@ -74,7 +74,7 @@
   :config
   (setq heaven-and-hell-theme-type 'dark) ;; Omit to use light by default
   (setq heaven-and-hell-themes
-        '((light . adwaita)
+        '((light . whiteboard)
           (dark . deeper-blue)))
   ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
