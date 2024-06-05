@@ -3,11 +3,8 @@
 (defun my-copy-till-end-of-line ()
   (interactive)
   (let ((orig-point (point)))
+    (end-of-line)
     (evil-visual-char)
-    (let ((beg (region-beginning)))
-      (end-of-line)
-      (kill-ring-save beg (point)))
-    (evil-normal-state)
     (goto-char orig-point)))
 
 (defun xah-toggle-letter-case ()
