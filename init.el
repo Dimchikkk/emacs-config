@@ -75,7 +75,7 @@
   (setq heaven-and-hell-theme-type 'dark) ;; Omit to use light by default
   (setq heaven-and-hell-themes
         '((light . whiteboard)
-          (dark . doom-plain-dark)))
+          (dark . doom-dark+)))
   ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
   :hook (after-init . heaven-and-hell-init-hook)
@@ -87,7 +87,7 @@
 (setq ido-enable-flex-matching t)
 
 ;; Set the default font and size
-(set-frame-font "Victor Mono 16" nil t)
+(set-frame-font "Ubuntu Mono 16" nil t)
 
 (setq evil-want-keybinding nil)
 (setq evil-want-C-i-jump nil)
