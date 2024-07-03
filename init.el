@@ -75,7 +75,7 @@
   (setq heaven-and-hell-theme-type 'dark) ;; Omit to use light by default
   (setq heaven-and-hell-themes
         '((light . whiteboard)
-          (dark . doom-xcode)))
+          (dark . doom-plain-dark)))
   ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
   :hook (after-init . heaven-and-hell-init-hook)
@@ -235,3 +235,5 @@
 (use-package magit-todos
   :after magit
   :config (magit-todos-mode 1))
+
+;; Notes: toggle mark Alt + Space
