@@ -96,8 +96,15 @@
 (define-key my-keys-minor-mode-map (kbd "M-l")         #'my-copy-till-end-of-line)
 (define-key my-keys-minor-mode-map (kbd "M-u")         #'ido-switch-buffer)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
-
 (define-key projectile-mode-map (kbd "C-c p") #'projectile-command-map)
+
+(defun move-to-new-line ()
+  (interactive)
+  (let ((col (current-column)))
+    (beginning-of-line)
+    (electric-newline-and-maybe-indent)
+    (move-to-column col)))
+(define-key my-keys-minor-mode-map (kbd "C-j")         #'move-to-new-line)
 
 (define-key rust-mode-map (kbd "C-4") #'rust-compile)
 (define-key rust-mode-map (kbd "C-5") #'rust-run)
