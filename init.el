@@ -215,7 +215,7 @@
 (global-evil-mc-mode  1)
 
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-(setq highlight-indent-guides-method 'character)
+(setq highlight-indent-guides-method 'bitmap)
 
 ;; Load custom keybindings.
 (require #'keys)
