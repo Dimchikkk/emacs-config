@@ -215,7 +215,7 @@
 (global-evil-mc-mode  1)
 
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-(setq highlight-indent-guides-method 'bitmap)
+(setq highlight-indent-guides-method 'character)
 
 ;; Load custom keybindings.
 (require #'keys)
@@ -231,9 +231,10 @@
 (setq hl-todo-keyword-faces
       '(("TODO"   . "#A020F0")
         ("FIXME"  . "#A020F0")
-        ("IDEA"  .  "#1E90FF")))
+        ("NOTE"  .  "#1E90FF")))
 (use-package magit-todos
   :after magit
   :config (magit-todos-mode 1))
 
 ;; Notes: toggle mark Alt + Space
+;; C-x r - rectangle commands
