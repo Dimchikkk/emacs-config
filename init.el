@@ -236,8 +236,11 @@
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
   (setq highlight-indent-guides-method 'character))
 
-(require #'keys)
+
+(setq debug-on-error t)
 
 ;; Notes: toggle mark Alt + Space
 ;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
 ;; C-x r - rectangle commands
+
+(require #'keys)
