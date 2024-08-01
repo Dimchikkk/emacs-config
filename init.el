@@ -101,7 +101,6 @@
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
 (setq lsp-auto-guess-root nil)
-(setq lsp-rust-analyzer-cargo-watch-command "")
 (setq lsp-ui-peek-always-show t)
 
 (recentf-mode 1)
@@ -237,8 +236,8 @@
   (setq highlight-indent-guides-method 'character))
 
 
-(setq debug-on-error t)
-
+;; Uncomment line below for emacs debugging:
+;; (setq debug-on-error t)
 ;; Notes: toggle mark Alt + Space
 ;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
 ;; C-x r - rectangle commands
