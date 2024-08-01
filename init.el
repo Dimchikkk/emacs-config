@@ -58,6 +58,7 @@
   (unless (package-installed-p package)
     (package-install package)))
 
+
 (setq auto-save-visited-mode t)
 (setq inhibit-startup-message t)
  
@@ -210,15 +211,7 @@
       (delete-other-windows)
     (winner-undo)))
 
-;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
-
 (global-evil-mc-mode  1)
-
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-(setq highlight-indent-guides-method 'character)
-
-;; Load custom keybindings.
-(require #'keys)
 
 (add-hook 'after-init-hook 'global-company-mode)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
@@ -236,5 +229,15 @@
   :after magit
   :config (magit-todos-mode 1))
 
+(use-package highlight-indent-guides
+  :ensure t
+  :config
+  (set-face-foreground 'highlight-indent-guides-character-face "#111111")
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+  (setq highlight-indent-guides-method 'character))
+
+(require #'keys)
+
 ;; Notes: toggle mark Alt + Space
+;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
 ;; C-x r - rectangle commands
