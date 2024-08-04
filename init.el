@@ -17,6 +17,7 @@
                      evil-mc
 		     exec-path-from-shell 
                      expand-region
+                     rustic
                      flx-ido
                      go-mode
                      heaven-and-hell
@@ -31,7 +32,6 @@
                      olivetti
 		     pretty-mode
                      projectile
-                     rust-mode
 		     smex
 		     swiper
                      sudo-edit
@@ -76,7 +76,7 @@
   (setq heaven-and-hell-theme-type 'dark) ;; Omit to use light by default
   (setq heaven-and-hell-themes
         '((light . whiteboard)
-          (dark . doom-dark+)))
+          (dark . gruber-darker)))
   ;; Optionall, load themes without asking for confirmation.
   (setq heaven-and-hell-load-theme-no-confirm t)
   :hook (after-init . heaven-and-hell-init-hook)
@@ -97,8 +97,11 @@
 (smex-initialize) ; Can be omitted. This might cause a (minimal) delay
                   ; when Smex is auto-initialized on its first run.
 
-(require 'rust-mode)
-(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+(setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
+(use-package rustic
+  :custom
+  (rustic-analyzer-command '("rustup" "run" "nightly" "rust-analyzer")))
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rustic-mode))
 
 (setq lsp-auto-guess-root nil)
 (setq lsp-ui-peek-always-show t)
@@ -132,7 +135,7 @@
 
 (add-hook 'java-mode-hook #'lsp)
 (add-hook 'js2-mode-hook #'lsp)
-(add-hook 'rust-mode-hook #'lsp)
+(add-hook 'rustic-mode-hook #'lsp)
 (add-hook 'typescript-mode-hook #'lsp)
 
 (autoload 'kill-ring-search "kill-ring-search"

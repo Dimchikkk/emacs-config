@@ -106,9 +106,9 @@
     (move-to-column col)))
 (define-key my-keys-minor-mode-map (kbd "C-j")         #'move-to-new-line)
 
-(define-key rust-mode-map (kbd "C-4") #'rust-compile)
-(define-key rust-mode-map (kbd "C-5") #'rust-run)
-(define-key rust-mode-map (kbd "C-7") #'rust-test)
+(define-key rustic-mode-map (kbd "C-4") #'rustic-cargo-build)
+(define-key rustic-mode-map (kbd "C-5") #'rustic-cargo-run)
+(define-key rustic-mode-map (kbd "C-7") #'rustic-cargo-test)
 
 (define-key ido-file-completion-map (kbd "C-n") #'ido-next-match)
 (define-key ido-file-completion-map (kbd "C-p") #'ido-prev-match)
