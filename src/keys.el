@@ -4,6 +4,7 @@
   (interactive)
   (let ((orig-point (point)))
     (end-of-line)
+    (backward-char)
     (evil-visual-char)
     (goto-char orig-point)))
 
