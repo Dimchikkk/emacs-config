@@ -32,6 +32,7 @@
                      olivetti
 		     pretty-mode
                      projectile
+                     rainbow-mode
 		     smex
 		     swiper
                      sudo-edit
