@@ -17,6 +17,7 @@
                      evil-mc
 		     exec-path-from-shell 
                      expand-region
+                     gruber-darker-theme
                      rustic
                      flx-ido
                      go-mode
@@ -134,6 +135,8 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("package-lock.json" . text-mode))
 
+(add-to-list 'auto-mode-alist '("\\.java\\'" . java-mode))
+
 (add-hook 'java-mode-hook #'lsp)
 (add-hook 'js2-mode-hook #'lsp)
 (add-hook 'rustic-mode-hook #'lsp)
@@ -245,5 +248,7 @@
 ;; Notes: toggle mark Alt + Space
 ;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
 ;; C-x r - rectangle commands
+;; M-o   - look for text in directory in dired-mode
+;; C-4   - recompile
 
 (require #'keys)

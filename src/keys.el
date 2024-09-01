@@ -96,6 +96,7 @@
 (define-key my-keys-minor-mode-map (kbd "M-p")         #'xah-toggle-letter-case)
 (define-key my-keys-minor-mode-map (kbd "M-l")         #'my-copy-till-end-of-line)
 (define-key my-keys-minor-mode-map (kbd "M-u")         #'ido-switch-buffer)
+(define-key my-keys-minor-mode-map (kbd "C-4")         #'recompile)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
 (define-key projectile-mode-map (kbd "C-c p") #'projectile-command-map)
 
