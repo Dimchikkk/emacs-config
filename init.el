@@ -247,8 +247,8 @@
 ;; (setq debug-on-error t)
 ;; Notes: toggle mark Alt + Space
 ;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
-;; C-x r - rectangle commands
-;; M-o   - look for text in directory in dired-mode
-;; C-4   - recompile
+;; C-x r   - rectangle commands
+;; M-o     - look for text in directory in dired-mode
+;; C-c C-o - look for file in directory in dired-mode
+;; C-4     - recompile
 
-(require #'keys)
