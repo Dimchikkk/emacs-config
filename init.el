@@ -242,6 +242,7 @@
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
   (setq highlight-indent-guides-method 'character))
 
+(require 'keys)
 
 ;; Uncomment line below for emacs debugging:
 ;; (setq debug-on-error t)
@@ -250,5 +251,5 @@
 ;; C-x r   - rectangle commands
 ;; M-o     - look for text in directory in dired-mode
 ;; C-c C-o - look for file in directory in dired-mode
-;; C-4     - recompile
+;; C-3     - recompile
 
