@@ -56,7 +56,7 @@
 (define-key my-keys-minor-mode-map (kbd "C->")         #'evil-mc-make-cursor-in-visual-selection-end)
 (define-key my-keys-minor-mode-map (kbd "C-<")         #'evil-mc-make-cursor-in-visual-selection-beg)
 (define-key my-keys-minor-mode-map (kbd "M-RET")       #'evil-mode)
-(define-key my-keys-minor-mode-map (kbd "C-c ;")       #'kill-other-buffers)
+(define-key my-keys-minor-mode-map (kbd "C-c C-;")     #'kill-other-buffers)
 (define-key my-keys-minor-mode-map (kbd "C-c =")       #'sort-lines)
 (define-key my-keys-minor-mode-map (kbd "C-c C-c M-x") #'execute-extended-command)
 (define-key my-keys-minor-mode-map (kbd "C-c C-f")     #'ffap)
