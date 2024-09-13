@@ -90,7 +90,7 @@
 (setq ido-enable-flex-matching t)
 
 ;; Set the default font and size
-(set-frame-font "Ubuntu Mono 16" nil t)
+(set-frame-font "Ubuntu Mono 21" nil t)
 
 (setq evil-want-keybinding nil)
 (setq evil-want-C-i-jump nil)
@@ -248,8 +248,8 @@
 ;; (setq debug-on-error t)
 ;; Notes: toggle mark Alt + Space
 ;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
-;; C-x r   - rectangle commands
-;; M-o     - look for text in directory in dired-mode
-;; C-c C-o - look for file in directory in dired-mode
-;; C-4     - recompile
-
+;; C-x r     - rectangle commands
+;; M-o       - look for text in directory in dired-mode
+;; C-c C-o   - look for file in directory in dired-mode
+;; C-4       - recompile
+;; Shift + V - to select line
