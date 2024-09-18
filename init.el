@@ -90,7 +90,7 @@
 (setq ido-enable-flex-matching t)
 
 ;; Set the default font and size
-(set-frame-font "Ubuntu Mono 21" nil t)
+(set-frame-font "Ubuntu Mono 20" nil t)
 
 (setq evil-want-keybinding nil)
 (setq evil-want-C-i-jump nil)
@@ -241,6 +241,8 @@
   (set-face-foreground 'highlight-indent-guides-character-face "#111111")
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
   (setq highlight-indent-guides-method 'character))
+
+(add-hook 'prog-mode-hook 'olivetti-mode)
 
 (require 'keys)
 
