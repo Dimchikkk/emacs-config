@@ -83,7 +83,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-l")         #'er/expand-region)
 (define-key my-keys-minor-mode-map (kbd "C-c q")       #'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "C-c t")       #'rename-buffer)
-(define-key my-keys-minor-mode-map (kbd "C-c C-r")     #'query-replace-regexp)
+(define-key my-keys-minor-mode-map (kbd "C-c C-q")     #'query-replace-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c s")       #'lsp-find-references)
 (define-key my-keys-minor-mode-map (kbd "C-c n")       #'olivetti-mode)
 (define-key my-keys-minor-mode-map (kbd "C-c v")       #'vundo)

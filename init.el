@@ -242,8 +242,6 @@
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
   (setq highlight-indent-guides-method 'character))
 
-(add-hook 'prog-mode-hook 'olivetti-mode)
-
 (require 'keys)
 
 ;; Uncomment line below for emacs debugging:
