@@ -10,14 +10,10 @@
                      doom-modeline
                      doom-themes
                      dumb-jump
-		     evil
-                     evil-commentary
-		     evil-collection
-                     evil-numbers
-                     evil-mc
-		     exec-path-from-shell 
+		     exec-path-from-shell
                      expand-region
                      gruber-darker-theme
+                     multiple-cursors
                      rustic
                      flx-ido
                      go-mode
@@ -62,7 +58,8 @@
 
 (setq auto-save-visited-mode t)
 (setq inhibit-startup-message t)
- 
+
+(require 'recentf)
 (require 'gruber-darker-theme)
 (load-theme 'gruber-darker t)
 (menu-bar-mode -1) 
@@ -79,10 +76,6 @@
 (setq ido-enable-flex-matching t)
 
 (set-frame-font "Ubuntu Mono 20" nil t)
-
-(setq evil-want-keybinding nil)
-(setq evil-want-C-i-jump nil)
-(evil-mode)
 
 (smex-initialize)
 
@@ -105,7 +98,6 @@
    ns-control-modifier 'super
    ns-function-modifier 'hyper))
 
-(evil-collection-init)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
@@ -162,8 +154,6 @@
 
 (winner-mode 1)
 
-(global-evil-mc-mode  1)
-
 (add-hook 'after-init-hook 'global-company-mode)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 (setq gc-cons-threshold 100000000)
@@ -194,3 +184,16 @@
 ;; C-c C-o   - look for file in directory in dired-mode
 ;; C-4       - recompile
 ;; Shift + V - to select line
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(multiple-cursors yaml-mode which-key wgrep vundo vlf typescript-mode sudo-edit smex rustic rainbow-mode projectile pretty-mode olivetti magit-todos lsp-ui lsp-java js2-mode htmlize highlight-indent-guides heaven-and-hell gruber-darker-theme go-mode gherkin-mode flx-ido feature-mode expreg expand-region exec-path-from-shell evil-numbers evil-mc evil-commentary evil-collection dumb-jump drag-stuff doom-themes doom-modeline dockerfile-mode default-text-scale deadgrep counsel company browse-kill-ring ace-jump-mode)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
