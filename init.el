@@ -17,7 +17,6 @@
                      rustic
                      flx-ido
                      go-mode
-                     highlight-indent-guides
                      hl-todo
                      htmlize
 		     js2-mode
@@ -60,6 +59,10 @@
 (setq inhibit-startup-message t)
 
 (require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(setq recentf-max-saved-items 25)
+
 (require 'gruber-darker-theme)
 (load-theme 'gruber-darker t)
 (menu-bar-mode -1) 
@@ -165,12 +168,8 @@
       '(("TODO"   . "#A020F0")
         ("FIXME"  . "#A020F0")
         ("NOTE"  .  "#1E90FF")))
-
 (magit-todos-mode 1)
 
-(require 'highlight-indent-guides)
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-(setq highlight-indent-guides-method 'character)
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode Keymap.")
 
 (defun kill-other-buffers ()
@@ -235,6 +234,13 @@
     (move-beginning-of-line 1)
     (forward-char column)))
 
+(defun kill-current-line()
+  "Kill the entire line the cursor is on."
+  (interactive)
+  (beginning-of-line)    ;; Move to the beginning of the line
+  (kill-line 1)          ;; Kill the line
+  (kill-line 0))         ;; Kill the remaining line to remove the newline character
+
 (define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-line)
 (define-key my-keys-minor-mode-map (kbd "C-r")         #'swiper-isearch-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-s")         #'swiper-isearch)
@@ -264,7 +270,9 @@
 (define-key my-keys-minor-mode-map (kbd "C-c d")       #'duplicate-dwim)
 (define-key my-keys-minor-mode-map (kbd "C-c f")       #'ido-find-file)
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
-(define-key my-keys-minor-mode-map (kbd "C-1")         #'lsp-execute-code-action)
+(define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
+(define-key my-keys-minor-mode-map (kbd "C-1")         #'beginning-of-buffer)
+(define-key my-keys-minor-mode-map (kbd "C-0")         #'end-of-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
 (define-key my-keys-minor-mode-map (kbd "C-c j")       #'dired-jump)
 (define-key my-keys-minor-mode-map (kbd "C-c l")       #'shell-command)
@@ -278,6 +286,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c v")       #'vundo)
 (define-key my-keys-minor-mode-map (kbd "C-c x")       #'kill-buffer-and-window)
 (define-key my-keys-minor-mode-map (kbd "C-c y")       #'browse-kill-ring)
+(define-key my-keys-minor-mode-map (kbd "C-c k")       #'kill-current-line)
 (define-key my-keys-minor-mode-map (kbd "M-h")         #'drag-stuff-up)
 (define-key my-keys-minor-mode-map (kbd "M-g")         #'drag-stuff-down)
 (define-key my-keys-minor-mode-map (kbd "M-SPC")       #'ace-window)
@@ -292,13 +301,13 @@
 (define-key my-keys-minor-mode-map (kbd "C->")         #'mc/mark-next-like-this)
 (define-key my-keys-minor-mode-map (kbd "C-<")         #'mc/mark-previous-like-this)
 (define-key my-keys-minor-mode-map (kbd "C-c C-<")     #'mc/mark-all-like-this)
-(define-key my-keys-minor-mode-map (kbd "C-\\")        #'previous-error)
-(define-key my-keys-minor-mode-map (kbd "C-:")         #'next-error)
+(define-key my-keys-minor-mode-map (kbd "C-c ]")       #'previous-error)
+(define-key my-keys-minor-mode-map (kbd "C-c [")       #'next-error)
 (define-key projectile-mode-map (kbd "C-c p")          #'projectile-command-map)
 
-(define-key rustic-mode-map (kbd "C-4") #'rustic-cargo-build)
-(define-key rustic-mode-map (kbd "C-5") #'rustic-cargo-run)
-(define-key rustic-mode-map (kbd "C-7") #'rustic-cargo-test)
+(define-key rustic-mode-map (kbd "C-c 1") #'rustic-cargo-build)
+(define-key rustic-mode-map (kbd "C-c 3") #'rustic-cargo-run)
+(define-key rustic-mode-map (kbd "C-c 4") #'rustic-cargo-test)
 
 (define-key ido-file-completion-map (kbd "C-n") #'ido-next-match)
 (define-key ido-file-completion-map (kbd "C-p") #'ido-prev-match)
@@ -311,16 +320,10 @@
 
 (my-keys-minor-mode 1)
 
-(defun disable-my-keys ()
-  (my-keys-minor-mode 0))
-
+(defun disable-my-keys() (my-keys-minor-mode 0))
 (add-hook 'minibuffer-setup-hook 'disable-my-keys)
 
 ;; Uncomment line below for emacs debugging:
 ;; (setq debug-on-error t)
-;; Notes: toggle mark Alt + Space
 ;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
-;; C-x r     - rectangle commands
-;; M-o       - look for text in directory in dired-mode
-;; C-c C-o   - look for file in directory in dired-mode
-;; C-4       - recompile
+;; C-x r - rectangle commands
