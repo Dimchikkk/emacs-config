@@ -146,7 +146,6 @@
 
 (which-key-mode)
 (default-text-scale-mode)
-(add-to-list #'load-path (concat user-emacs-directory "src/") t)
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 
 (setq olivetti-body-width 100)
@@ -172,8 +171,150 @@
 (require 'highlight-indent-guides)
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 (setq highlight-indent-guides-method 'character)
+(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode Keymap.")
 
-(require 'keys)
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
+(defun toggle-full-window()
+  "Toggle the full view of selected window"
+  (interactive)
+  (if (window-parent)
+      (delete-other-windows)
+    (winner-undo)))
+
+(defun my-copy-till-end-of-line ()
+  (interactive)
+  (let ((orig-point (point)))
+    (move-end-of-line 1)
+    (kill-ring-save orig-point (point))
+    (goto-char orig-point)))
+
+(defun xah-toggle-letter-case ()
+  (interactive)
+  (let ( (deactivate-mark nil) xp1 xp2)
+    (if (region-active-p)
+        (setq xp1 (region-beginning) xp2 (region-end))
+      (save-excursion
+        (skip-chars-backward "[:alpha:]")
+        (setq xp1 (point))
+        (skip-chars-forward "[:alpha:]")
+        (setq xp2 (point))))
+    (when (not (eq last-command this-command))
+      (put this-command 'state 0))
+    (cond
+     ((equal 0 (get this-command 'state))
+      (upcase-initials-region xp1 xp2)
+      (put this-command 'state 1))
+     ((equal 1 (get this-command 'state))
+      (upcase-region xp1 xp2)
+      (put this-command 'state 2))
+     ((equal 2 (get this-command 'state))
+      (downcase-region xp1 xp2)
+      (put this-command 'state 0)))))
+
+(defun occur-thing-at-point()
+  (interactive)
+  (let ((term (thing-at-point 'symbol t))) (occur term)))
+
+(defun counsel-git-grep-at-point()
+  (interactive)
+  (let ((term (thing-at-point 'symbol t))) (counsel-git-grep term)))
+
+(defun duplicate-line()
+  "Duplicate current line"
+  (interactive)
+  (let ((column (- (point) (point-at-bol)))
+        (line (let ((s (thing-at-point 'line t)))
+                (if s (string-remove-suffix "\n" s) ""))))
+    (move-end-of-line 1)
+    (newline)
+    (insert line)
+    (move-beginning-of-line 1)
+    (forward-char column)))
+
+(define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-line)
+(define-key my-keys-minor-mode-map (kbd "C-r")         #'swiper-isearch-thing-at-point)
+(define-key my-keys-minor-mode-map (kbd "C-s")         #'swiper-isearch)
+(define-key my-keys-minor-mode-map (kbd "C-c )")       #'kmacro-end-macro)
+(define-key my-keys-minor-mode-map (kbd "C-c (")       #'kmacro-start-macro)
+(define-key my-keys-minor-mode-map (kbd "C-c ,")       #'kmacro-end-and-call-macro)
+(define-key my-keys-minor-mode-map (kbd "C-c C-,")     #'apply-macro-to-region-lines)
+(define-key my-keys-minor-mode-map (kbd "C-c /")       #'counsel-compilation-errors)
+(define-key my-keys-minor-mode-map (kbd "C-.")         #'next-error)
+(define-key my-keys-minor-mode-map (kbd "C-;")         #'er/expand-region)
+(define-key my-keys-minor-mode-map (kbd "C--")         #'default-text-scale-decrease)
+(define-key my-keys-minor-mode-map (kbd "C-=")         #'default-text-scale-increase)
+(define-key my-keys-minor-mode-map (kbd "C-c C-;")     #'kill-other-buffers)
+(define-key my-keys-minor-mode-map (kbd "C-c =")       #'sort-lines)
+(define-key my-keys-minor-mode-map (kbd "C-c C-c M-x") #'execute-extended-command)
+(define-key my-keys-minor-mode-map (kbd "C-c C-f")     #'ffap)
+(define-key my-keys-minor-mode-map (kbd "C-c C-l")     #'shell)
+(define-key my-keys-minor-mode-map (kbd "C-c RET")     #'projectile-switch-project)
+(define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'counsel-fzf)
+(define-key my-keys-minor-mode-map (kbd "M-o")         #'find-grep-dired)
+(define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-name-dired)
+(define-key my-keys-minor-mode-map (kbd "C-c o")       #'occur-thing-at-point)
+(define-key my-keys-minor-mode-map (kbd "C-c r")       #'recentf-open-files)
+(define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
+(define-key my-keys-minor-mode-map (kbd "C-c c")       #'deadgrep)
+(define-key my-keys-minor-mode-map (kbd "C-c e")       #'mark-defun)
+(define-key my-keys-minor-mode-map (kbd "C-c d")       #'duplicate-dwim)
+(define-key my-keys-minor-mode-map (kbd "C-c f")       #'ido-find-file)
+(define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
+(define-key my-keys-minor-mode-map (kbd "C-1")         #'lsp-execute-code-action)
+(define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
+(define-key my-keys-minor-mode-map (kbd "C-c j")       #'dired-jump)
+(define-key my-keys-minor-mode-map (kbd "C-c l")       #'shell-command)
+(define-key my-keys-minor-mode-map (kbd "C-c m")       #'magit-status-here)
+(define-key my-keys-minor-mode-map (kbd "C-c b")       #'toggle-full-window)
+(define-key my-keys-minor-mode-map (kbd "C-c q")       #'ace-jump-mode)
+(define-key my-keys-minor-mode-map (kbd "C-c t")       #'rename-buffer)
+(define-key my-keys-minor-mode-map (kbd "C-c C-q")     #'query-replace-regexp)
+(define-key my-keys-minor-mode-map (kbd "C-c s")       #'lsp-find-references)
+(define-key my-keys-minor-mode-map (kbd "C-c n")       #'olivetti-mode)
+(define-key my-keys-minor-mode-map (kbd "C-c v")       #'vundo)
+(define-key my-keys-minor-mode-map (kbd "C-c x")       #'kill-buffer-and-window)
+(define-key my-keys-minor-mode-map (kbd "C-c y")       #'browse-kill-ring)
+(define-key my-keys-minor-mode-map (kbd "M-h")         #'drag-stuff-up)
+(define-key my-keys-minor-mode-map (kbd "M-g")         #'drag-stuff-down)
+(define-key my-keys-minor-mode-map (kbd "M-SPC")       #'ace-window)
+(define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
+(define-key my-keys-minor-mode-map (kbd "M-p")         #'xah-toggle-letter-case)
+(define-key my-keys-minor-mode-map (kbd "M-l")         #'my-copy-till-end-of-line)
+(define-key my-keys-minor-mode-map (kbd "M-u")         #'ido-switch-buffer)
+(define-key my-keys-minor-mode-map (kbd "C-c 1")       #'compile)
+(define-key my-keys-minor-mode-map (kbd "C-c 2")       #'recompile)
+(define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
+(define-key my-keys-minor-mode-map (kbd "C-S-c C-S-c") #'mc/edit-lines)
+(define-key my-keys-minor-mode-map (kbd "C->")         #'mc/mark-next-like-this)
+(define-key my-keys-minor-mode-map (kbd "C-<")         #'mc/mark-previous-like-this)
+(define-key my-keys-minor-mode-map (kbd "C-c C-<")     #'mc/mark-all-like-this)
+(define-key my-keys-minor-mode-map (kbd "C-\\")        #'previous-error)
+(define-key my-keys-minor-mode-map (kbd "C-:")         #'next-error)
+(define-key projectile-mode-map (kbd "C-c p")          #'projectile-command-map)
+
+(define-key rustic-mode-map (kbd "C-4") #'rustic-cargo-build)
+(define-key rustic-mode-map (kbd "C-5") #'rustic-cargo-run)
+(define-key rustic-mode-map (kbd "C-7") #'rustic-cargo-test)
+
+(define-key ido-file-completion-map (kbd "C-n") #'ido-next-match)
+(define-key ido-file-completion-map (kbd "C-p") #'ido-prev-match)
+(define-key ido-buffer-completion-map (kbd "C-n") #'ido-next-match)
+(define-key ido-buffer-completion-map (kbd "C-p") #'ido-prev-match)
+
+(define-minor-mode my-keys-minor-mode
+  "A minor mode so that my key settings override annoying major modes."
+  t " my-keys" #'my-keys-minor-mode-map)
+
+(my-keys-minor-mode 1)
+
+(defun disable-my-keys ()
+  (my-keys-minor-mode 0))
+
+(add-hook 'minibuffer-setup-hook 'disable-my-keys)
 
 ;; Uncomment line below for emacs debugging:
 ;; (setq debug-on-error t)
@@ -183,17 +324,3 @@
 ;; M-o       - look for text in directory in dired-mode
 ;; C-c C-o   - look for file in directory in dired-mode
 ;; C-4       - recompile
-;; Shift + V - to select line
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(multiple-cursors yaml-mode which-key wgrep vundo vlf typescript-mode sudo-edit smex rustic rainbow-mode projectile pretty-mode olivetti magit-todos lsp-ui lsp-java js2-mode htmlize highlight-indent-guides heaven-and-hell gruber-darker-theme go-mode gherkin-mode flx-ido feature-mode expreg expand-region exec-path-from-shell evil-numbers evil-mc evil-commentary evil-collection dumb-jump drag-stuff doom-themes doom-modeline dockerfile-mode default-text-scale deadgrep counsel company browse-kill-ring ace-jump-mode)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
