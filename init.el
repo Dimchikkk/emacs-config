@@ -292,7 +292,7 @@
 (define-key my-keys-minor-mode-map (kbd "M-SPC")       #'ace-window)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "M-p")         #'xah-toggle-letter-case)
-(define-key my-keys-minor-mode-map (kbd "M-l")         #'my-copy-till-end-of-line)
+(define-key my-keys-minor-mode-map (kbd "M-;")         #'my-copy-till-end-of-line)
 (define-key my-keys-minor-mode-map (kbd "M-u")         #'ido-switch-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c 1")       #'compile)
 (define-key my-keys-minor-mode-map (kbd "C-c 2")       #'recompile)
@@ -305,9 +305,9 @@
 (define-key my-keys-minor-mode-map (kbd "C-c [")       #'next-error)
 (define-key projectile-mode-map (kbd "C-c p")          #'projectile-command-map)
 
-(define-key rustic-mode-map (kbd "C-c 1") #'rustic-cargo-build)
-(define-key rustic-mode-map (kbd "C-c 3") #'rustic-cargo-run)
-(define-key rustic-mode-map (kbd "C-c 4") #'rustic-cargo-test)
+(define-key rustic-mode-map (kbd "C-c 3") #'rustic-cargo-build)
+(define-key rustic-mode-map (kbd "C-c 4") #'rustic-cargo-run)
+(define-key rustic-mode-map (kbd "C-c 5") #'rustic-cargo-test)
 
 (define-key ido-file-completion-map (kbd "C-n") #'ido-next-match)
 (define-key ido-file-completion-map (kbd "C-p") #'ido-prev-match)
