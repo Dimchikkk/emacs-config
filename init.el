@@ -234,13 +234,6 @@
     (move-beginning-of-line 1)
     (forward-char column)))
 
-(defun kill-current-line()
-  "Kill the entire line the cursor is on."
-  (interactive)
-  (beginning-of-line)    ;; Move to the beginning of the line
-  (kill-line 1)          ;; Kill the line
-  (kill-line 0))         ;; Kill the remaining line to remove the newline character
-
 (define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-line)
 (define-key my-keys-minor-mode-map (kbd "C-r")         #'swiper-isearch-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-s")         #'swiper-isearch)
@@ -286,7 +279,6 @@
 (define-key my-keys-minor-mode-map (kbd "C-c v")       #'vundo)
 (define-key my-keys-minor-mode-map (kbd "C-c x")       #'kill-buffer-and-window)
 (define-key my-keys-minor-mode-map (kbd "C-c y")       #'browse-kill-ring)
-(define-key my-keys-minor-mode-map (kbd "C-c k")       #'kill-current-line)
 (define-key my-keys-minor-mode-map (kbd "M-h")         #'drag-stuff-up)
 (define-key my-keys-minor-mode-map (kbd "M-g")         #'drag-stuff-down)
 (define-key my-keys-minor-mode-map (kbd "M-SPC")       #'ace-window)
