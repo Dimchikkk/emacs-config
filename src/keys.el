@@ -1,5 +1,17 @@
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode Keymap.")
 
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
+(defun toggle-full-window()
+  "Toggle the full view of selected window"
+  (interactive)
+  (if (window-parent)
+      (delete-other-windows)
+    (winner-undo)))
+
 (defun my-copy-till-end-of-line ()
   (interactive)
   (let ((orig-point (point)))
@@ -73,7 +85,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c d")       #'duplicate-dwim)
 (define-key my-keys-minor-mode-map (kbd "C-c f")       #'ido-find-file)
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
-(define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
+(define-key my-keys-minor-mode-map (kbd "C-1")         #'lsp-execute-code-action)
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
 (define-key my-keys-minor-mode-map (kbd "C-c j")       #'dired-jump)
 (define-key my-keys-minor-mode-map (kbd "C-c k")       #'evil-join)
@@ -96,9 +108,9 @@
 (define-key my-keys-minor-mode-map (kbd "M-p")         #'xah-toggle-letter-case)
 (define-key my-keys-minor-mode-map (kbd "M-l")         #'my-copy-till-end-of-line)
 (define-key my-keys-minor-mode-map (kbd "M-u")         #'ido-switch-buffer)
-(define-key my-keys-minor-mode-map (kbd "C-4")         #'recompile)
+(define-key my-keys-minor-mode-map (kbd "C-2")         #'recompile)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
-(define-key projectile-mode-map (kbd "C-c p") #'projectile-command-map)
+(define-key projectile-mode-map (kbd "C-c p")          #'projectile-command-map)
 
 (defun move-to-new-line ()
   (interactive)
@@ -108,7 +120,7 @@
     (move-to-column col)))
 (define-key my-keys-minor-mode-map (kbd "C-j")         #'move-to-new-line)
 
-(define-key rustic-mode-map (kbd "C-3") #'rustic-cargo-build)
+(define-key rustic-mode-map (kbd "C-4") #'rustic-cargo-build)
 (define-key rustic-mode-map (kbd "C-5") #'rustic-cargo-run)
 (define-key rustic-mode-map (kbd "C-7") #'rustic-cargo-test)
 
