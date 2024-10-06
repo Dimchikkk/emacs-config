@@ -57,6 +57,13 @@
 (setq auto-save-visited-mode t)
 (setq inhibit-startup-message t)
 
+(defvar my-auto-save-folder "~/.emacs.d/auto-save/" "Directory to store auto-save files.")
+(unless (file-exists-p my-auto-save-folder) (make-directory my-auto-save-folder t))
+(setq auto-save-file-name-transforms `((".*" ,(concat my-auto-save-folder "\\1") t)))
+(defvar my-lock-file-folder "~/.emacs.d/lockfiles/" "Directory to store lock files.")
+(unless (file-exists-p my-lock-file-folder) (make-directory my-lock-file-folder t))
+(setq lock-file-name-transforms `((".*" ,(concat my-lock-file-folder ".#\\1") t)))
+
 (require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
@@ -193,10 +200,6 @@
     (insert line)
     (move-beginning-of-line 1)
     (forward-char column)))
-
-(defvar my-auto-save-folder "~/.emacs.d/auto-save/")
-(setq auto-save-file-name-transforms
-      `((".*" ,(concat my-auto-save-folder "\\1") t)))
 
 (define-key my-keys-minor-mode-map (kbd "M-SPC")       #'ace-window)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)

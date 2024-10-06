@@ -17,3 +17,5 @@ tramp
 transient/
 timelog
 workspace
+auto-save/
+lockfiles/
