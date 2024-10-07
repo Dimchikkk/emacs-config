@@ -189,22 +189,10 @@
   (interactive)
   (let ((term (thing-at-point 'symbol t))) (counsel-git-grep term)))
 
-(defun duplicate-line()
-  "Duplicate current line"
-  (interactive)
-  (let ((column (- (point) (point-at-bol)))
-        (line (let ((s (thing-at-point 'line t)))
-                (if s (string-remove-suffix "\n" s) ""))))
-    (move-end-of-line 1)
-    (newline)
-    (insert line)
-    (move-beginning-of-line 1)
-    (forward-char column)))
-
 (define-key my-keys-minor-mode-map (kbd "M-SPC")       #'ace-window)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
-(define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-line)
+(define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-dwim)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch)
 (define-key my-keys-minor-mode-map (kbd "C-c /")       #'counsel-compilation-errors)
 (define-key my-keys-minor-mode-map (kbd "C-;")         #'er/expand-region)
