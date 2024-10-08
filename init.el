@@ -189,7 +189,7 @@
   (interactive)
   (let ((term (thing-at-point 'symbol t))) (counsel-git-grep term)))
 
-(define-key my-keys-minor-mode-map (kbd "M-SPC")       #'ace-window)
+(define-key my-keys-minor-mode-map (kbd "M-<return>")  #'ace-window)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
 (define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-dwim)
@@ -224,8 +224,8 @@
 (define-key my-keys-minor-mode-map (kbd "C-c v")       #'vundo)
 (define-key my-keys-minor-mode-map (kbd "C-c x")       #'kill-buffer-and-window)
 (define-key my-keys-minor-mode-map (kbd "C-c y")       #'browse-kill-ring)
-(define-key my-keys-minor-mode-map (kbd "C-c <up>")    #'drag-stuff-up)
-(define-key my-keys-minor-mode-map (kbd "C-c <down>")  #'drag-stuff-down)
+(define-key my-keys-minor-mode-map (kbd "C-c u")       #'drag-stuff-up)
+(define-key my-keys-minor-mode-map (kbd "C-c d")       #'drag-stuff-down)
 (define-key my-keys-minor-mode-map (kbd "C-c 1")       #'compile)
 (define-key my-keys-minor-mode-map (kbd "C-c 2")       #'recompile)
 (define-key my-keys-minor-mode-map (kbd "C-S-c C-S-c") #'mc/edit-lines)
@@ -254,4 +254,5 @@
 (defun disable-my-keys() (my-keys-minor-mode 0))
 (add-hook 'minibuffer-setup-hook 'disable-my-keys)
 
+;; C-x C-x - exchange point and mark
 ;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
