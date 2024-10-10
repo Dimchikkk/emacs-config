@@ -214,8 +214,6 @@
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
-(define-key my-keys-minor-mode-map (kbd "C-c j")       #'dired-jump)
-(define-key my-keys-minor-mode-map (kbd "C-c l")       #'shell-command)
 (define-key my-keys-minor-mode-map (kbd "C-c RET")     #'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "C-c b")       #'rename-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c q")       #'query-replace-regexp)
