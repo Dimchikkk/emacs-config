@@ -195,7 +195,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-dwim)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch)
 (define-key my-keys-minor-mode-map (kbd "C-c /")       #'counsel-compilation-errors)
-(define-key my-keys-minor-mode-map (kbd "C-;")         #'er/expand-region)
+(define-key my-keys-minor-mode-map (kbd "C-.")         #'er/expand-region)
 (define-key my-keys-minor-mode-map (kbd "C--")         #'default-text-scale-decrease)
 (define-key my-keys-minor-mode-map (kbd "C-=")         #'default-text-scale-increase)
 (define-key my-keys-minor-mode-map (kbd "C-c C-k")     #'kill-other-buffers)
