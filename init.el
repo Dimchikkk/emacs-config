@@ -252,5 +252,8 @@
 (defun disable-my-keys() (my-keys-minor-mode 0))
 (add-hook 'minibuffer-setup-hook 'disable-my-keys)
 
+(custom-set-faces
+ '(company-tooltip-selection ((t (:background "#0000ff")))))
+
 ;; C-x C-x - exchange point and mark
 ;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
