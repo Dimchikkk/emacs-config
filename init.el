@@ -93,8 +93,8 @@
 (setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rustic-mode))
 
+(setq lsp-signature-render-documentation nil)
 (setq lsp-auto-guess-root nil)
-(setq lsp-ui-peek-always-show t)
 
 (projectile-mode +1)
 
