@@ -210,7 +210,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c C-p")     #'occur-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c r")       #'recentf-open-files)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
-(define-key my-keys-minor-mode-map (kbd "C-c c")       #'rg-dwim)
+(define-key my-keys-minor-mode-map (kbd "C-c c")       #'rg)
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
