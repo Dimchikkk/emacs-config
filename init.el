@@ -189,13 +189,20 @@
   (interactive)
   (let ((term (thing-at-point 'symbol t))) (counsel-git-grep term)))
 
+(defun copy-line ()
+  "Copy the current line to the kill ring without moving the cursor."
+  (interactive)
+  (save-excursion
+    (kill-ring-save (line-beginning-position) (line-end-position))))
+
 (define-key my-keys-minor-mode-map (kbd "M-<return>")  #'ace-window)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
 (define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-dwim)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch)
 (define-key my-keys-minor-mode-map (kbd "C-c /")       #'counsel-compilation-errors)
-(define-key my-keys-minor-mode-map (kbd "C-.")         #'er/expand-region)
+(define-key my-keys-minor-mode-map (kbd "C-c e")       #'er/expand-region)
+(define-key my-keys-minor-mode-map (kbd "C-.")         #'copy-line)
 (define-key my-keys-minor-mode-map (kbd "C--")         #'default-text-scale-decrease)
 (define-key my-keys-minor-mode-map (kbd "C-=")         #'default-text-scale-increase)
 (define-key my-keys-minor-mode-map (kbd "C-c C-k")     #'kill-other-buffers)
