@@ -4,6 +4,7 @@
 		     counsel
                      company
                      default-text-scale
+                     deadgrep
                      dockerfile-mode
 		     drag-stuff
                      doom-modeline
@@ -27,7 +28,6 @@
 		     pretty-mode
                      projectile
                      rainbow-mode
-                     rg
 		     smex
 		     swiper
                      sudo-edit
@@ -217,7 +217,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c C-p")     #'occur-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c r")       #'recentf-open-files)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
-(define-key my-keys-minor-mode-map (kbd "C-c c")       #'rg)
+(define-key my-keys-minor-mode-map (kbd "C-c c")       #'deadgrep)
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
@@ -261,6 +261,9 @@
 
 (custom-set-faces
  '(company-tooltip-selection ((t (:background "#0000ff")))))
+
+(setq-default js2-basic-offset 2
+              js-indent-level 2)
 
 ;; C-x C-x - exchange point and mark
 ;; C-m instead of Return
