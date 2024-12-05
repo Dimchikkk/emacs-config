@@ -98,6 +98,8 @@
 
 (projectile-mode +1)
 
+(delete-selection-mode 1)
+
 ;; Recommended keymap prefix on macOS
 (when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize))
 (when (eq system-type 'darwin)
@@ -210,12 +212,12 @@
 (define-key my-keys-minor-mode-map (kbd "C-c C-c M-x") #'execute-extended-command)
 (define-key my-keys-minor-mode-map (kbd "C-c C-f")     #'ffap)
 (define-key my-keys-minor-mode-map (kbd "C-c C-l")     #'shell)
-(define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'ido-switch-buffer)
+(define-key my-keys-minor-mode-map (kbd "C-c r")       #'ido-switch-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c RET")     #'counsel-fzf)
 (define-key my-keys-minor-mode-map (kbd "C-c o")       #'find-grep-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-name-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-p")     #'occur-thing-at-point)
-(define-key my-keys-minor-mode-map (kbd "C-c r")       #'recentf-open-files)
+(define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'recentf-open-files)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c c")       #'deadgrep)
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
