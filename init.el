@@ -1,16 +1,16 @@
 (setq package-list '(
                      ace-jump-mode
                      browse-kill-ring
-		     counsel
+                     counsel
                      company
                      default-text-scale
                      deadgrep
                      dockerfile-mode
-		     drag-stuff
+                     drag-stuff
                      doom-modeline
                      doom-themes
                      dumb-jump
-		     exec-path-from-shell
+                     exec-path-from-shell
                      expand-region
                      gruber-darker-theme
                      multiple-cursors
@@ -19,25 +19,25 @@
                      go-mode
                      hl-todo
                      htmlize
-		     js2-mode
-		     lsp-mode
+                     js2-mode
+                     lsp-mode
                      lsp-ui
-		     magit
+                     magit
                      magit-todos
                      olivetti
-		     pretty-mode
+                     pretty-mode
                      projectile
                      rainbow-mode
-		     smex
-		     swiper
+                     smex
+                     swiper
                      sudo-edit
                      typescript-mode
-		     vundo
+                     vundo
                      vlf
                      yaml-mode
-		     wgrep
+                     wgrep
                      which-key
-		     )
+                     )
       )
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -45,7 +45,7 @@
 ; activate all the packages (in particular autoloads)
 (package-initialize)
 
-; fetch the list of packages available 
+; fetch the list of packages available
 (unless package-archive-contents
   (package-refresh-contents))
 
@@ -71,7 +71,7 @@
 
 (require 'gruber-darker-theme)
 (load-theme 'gruber-darker t)
-(menu-bar-mode -1) 
+(menu-bar-mode -1)
 (tool-bar-mode -1)
 (customize-set-variable 'scroll-bar-mode nil)
 (setq visible-bell t)
@@ -145,7 +145,7 @@
 (drag-stuff-global-mode)
 
 ;; fixme: PATH hardcoded
-(setq-default shell-file-name "/opt/homebrew/bin/fish") 
+(setq-default shell-file-name "/opt/homebrew/bin/fish")
 
 (setq-default indent-tabs-mode nil)
 
@@ -191,6 +191,39 @@
   (interactive)
   (let ((term (thing-at-point 'symbol t))) (counsel-git-grep term)))
 
+(defcustom bool-flip-alist
+  '(("T"    . "F")
+    ("t"    . "f")
+    ("TRUE" . "FALSE")
+    ("True" . "False")
+    ("true" . "false")
+    ("Y"    . "N")
+    ("y"    . "n")
+    ("YES"  . "NO")
+    ("Yes"  . "No")
+    ("yes"  . "no")
+    ("1"    . "0"))
+  "Alist mapping booleans to their opposites for `bool-flip`.")
+
+(defun bool-flip()
+  "Replace the boolean at point with its opposite."
+  (interactive)
+  (let* ((old (thing-at-point 'symbol t)) ;; Use `t` to strip properties
+         (new (or (cdr (assoc old bool-flip-alist))
+                  (car (rassoc old bool-flip-alist)))))
+    (if new
+        (let ((bounds (bounds-of-thing-at-point 'symbol)))
+          (if bounds
+              (let ((beg (car bounds))
+                    (end (cdr bounds)))
+                (let ((insert-after (= (point) beg)))
+                  (delete-region beg end)
+                  (insert new)
+                  (when insert-after
+                    (goto-char beg))))
+            (user-error "No symbol at point")))
+      (user-error "Nothing to flip here"))))
+
 (define-key my-keys-minor-mode-map (kbd "M-<return>")  #'ace-window)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
@@ -224,6 +257,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c v")       #'vundo)
 (define-key my-keys-minor-mode-map (kbd "C-c x")       #'kill-buffer-and-window)
 (define-key my-keys-minor-mode-map (kbd "C-c y")       #'browse-kill-ring)
+(define-key my-keys-minor-mode-map (kbd "C-c f")       #'bool-flip)
 (define-key my-keys-minor-mode-map (kbd "M-<up>")      #'drag-stuff-up)
 (define-key my-keys-minor-mode-map (kbd "M-<down>")    #'drag-stuff-down)
 (define-key my-keys-minor-mode-map (kbd "C-c 1")       #'compile)
