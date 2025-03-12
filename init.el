@@ -294,6 +294,10 @@
 (setq-default js2-basic-offset 2
               js-indent-level 2)
 
+(setq whitespace-style
+      '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark))
+(global-whitespace-mode)
+
 ;; C-x C-x - exchange point and mark
 ;; C-m instead of Return
 ;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
