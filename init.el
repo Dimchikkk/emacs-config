@@ -298,6 +298,8 @@
       '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark))
 (global-whitespace-mode)
 
+(setq deadgrep-extra-arguments '("--multiline"))
+
 ;; C-x C-x - exchange point and mark
 ;; C-m instead of Return
 ;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
