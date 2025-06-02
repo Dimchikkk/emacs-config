@@ -84,7 +84,7 @@
 (flx-ido-mode 1)
 (setq ido-enable-flex-matching t)
 
-(set-frame-font "Ubuntu Mono 20" nil t)
+(set-frame-font "Ubuntu Mono 14" nil t)
 
 (smex-initialize)
 
@@ -99,15 +99,6 @@
 (projectile-mode +1)
 
 (delete-selection-mode 1)
-
-;; Recommended keymap prefix on macOS
-(when (memq window-system '(mac ns x)) (exec-path-from-shell-initialize))
-(when (eq system-type 'darwin)
-  (setq
-   ns-command-modifier 'control
-   ns-option-modifier 'meta
-   ns-control-modifier 'super
-   ns-function-modifier 'hyper))
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
@@ -139,14 +130,13 @@
 (setq dired-dwim-target t)
 (setq dired-auto-revert-buffer t)
 ;; requires coreutils
-(setq insert-directory-program "gls" dired-use-ls-dired t)
+(setq insert-directory-program "ls" dired-use-ls-dired t)
 (setq dired-listing-switches "-alh --group-directories-first")
 
 (drag-stuff-global-mode)
 
-;; fixme: PATH hardcoded
-(setq-default shell-file-name "/opt/homebrew/bin/fish")
-
+(exec-path-from-shell-initialize)
+(setq-default shell-file-name (or (executable-find "fish") "/bin/bash"))
 (setq-default indent-tabs-mode nil)
 
 ;; requires (nerd-icons-install-fonts)
@@ -237,7 +227,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c =")       #'sort-lines)
 (define-key my-keys-minor-mode-map (kbd "C-c C-c M-x") #'execute-extended-command)
 (define-key my-keys-minor-mode-map (kbd "C-c C-f")     #'ffap)
-(define-key my-keys-minor-mode-map (kbd "C-c C-l")     #'shell)
+(define-key my-keys-minor-mode-map (kbd "C-c C-l")     #'shell-command)
 (define-key my-keys-minor-mode-map (kbd "C-<return>")  #'recentf-open-files)
 (define-key my-keys-minor-mode-map (kbd "C-c RET")     #'counsel-fzf)
 (define-key my-keys-minor-mode-map (kbd "C-c o")       #'find-grep-dired)
@@ -302,4 +292,4 @@
 
 ;; C-x C-x - exchange point and mark
 ;; C-m instead of Return
-;; Install wget on system and use M-x shell: wget URL to download to current Dired directory
+;; M-x shell: wget URL to download to current Dired directory
