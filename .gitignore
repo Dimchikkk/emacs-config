@@ -18,4 +18,5 @@ transient/
 timelog
 workspace
 auto-save-list/
+auto-save/
 lockfiles/

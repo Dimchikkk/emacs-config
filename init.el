@@ -291,5 +291,6 @@
 (setq deadgrep-extra-arguments '("--multiline"))
 
 ;; C-x C-x - exchange point and mark
+;; C-x h - select whole file
 ;; C-m instead of Return
 ;; M-x shell: wget URL to download to current Dired directory
