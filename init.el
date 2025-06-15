@@ -227,13 +227,12 @@
 (define-key my-keys-minor-mode-map (kbd "C-c =")       #'sort-lines)
 (define-key my-keys-minor-mode-map (kbd "C-c C-c M-x") #'execute-extended-command)
 (define-key my-keys-minor-mode-map (kbd "C-c C-f")     #'ffap)
-(define-key my-keys-minor-mode-map (kbd "C-c C-l")     #'shell-command)
-(define-key my-keys-minor-mode-map (kbd "C-<return>")  #'recentf-open-files)
+(define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'recentf-open-files)
 (define-key my-keys-minor-mode-map (kbd "C-c RET")     #'counsel-fzf)
 (define-key my-keys-minor-mode-map (kbd "C-c o")       #'find-grep-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-name-dired)
-(define-key my-keys-minor-mode-map (kbd "C-c C-p")     #'occur-thing-at-point)
-(define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'ido-switch-buffer)
+(define-key my-keys-minor-mode-map (kbd "C-c l")       #'occur-thing-at-point)
+(define-key my-keys-minor-mode-map (kbd "C-<return>")  #'ido-switch-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c c")       #'deadgrep)
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
@@ -250,8 +249,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c f")       #'bool-flip)
 (define-key my-keys-minor-mode-map (kbd "M-<up>")      #'drag-stuff-up)
 (define-key my-keys-minor-mode-map (kbd "M-<down>")    #'drag-stuff-down)
-(define-key my-keys-minor-mode-map (kbd "C-c 1")       #'compile)
-(define-key my-keys-minor-mode-map (kbd "C-c 2")       #'recompile)
+(define-key my-keys-minor-mode-map (kbd "M-o")         #'compile)
 (define-key my-keys-minor-mode-map (kbd "C-S-c C-S-c") #'mc/edit-lines)
 (define-key my-keys-minor-mode-map (kbd "C->")         #'mc/mark-next-like-this)
 (define-key my-keys-minor-mode-map (kbd "C-<")         #'mc/mark-previous-like-this)
@@ -290,8 +288,9 @@
 
 (setq deadgrep-extra-arguments '("--multiline"))
 
-;; C-x C-x - exchange point and mark
+(winner-mode 1)
+
 ;; C-x h - select whole file
 ;; C-x 0 - close active window
 ;; C-m instead of Return
-;; M-x shell: wget URL to download to current Dired directory
+;; M-o: wget URL to download to current Dired directory
