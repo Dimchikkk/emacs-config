@@ -289,15 +289,6 @@
 
 (winner-mode 1)
 
-(require 'ansi-color)
-
-(defun my/compilation-mode-colorize-buffer ()
-  "Interpret ANSI color codes in compilation buffer."
-  (let ((inhibit-read-only t))
-    (ansi-color-apply-on-region compilation-filter-start (point))))
-
-(add-hook 'compilation-filter-hook #'my/compilation-mode-colorize-buffer)
-
 ;; C-x h - select whole file
 ;; C-x 0 - close active window
 ;; C-m instead of Return
