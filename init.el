@@ -89,8 +89,10 @@
 
 (setq lsp-rust-analyzer-completion-auto-import-enable t)
 
-(setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
+(setq rustic-analyzer-command
+      (list (concat (getenv "HOME") "/.cargo/bin/rust-analyzer")))
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rustic-mode))
+
 
 (setq lsp-signature-render-documentation nil)
 (setq lsp-auto-guess-root nil)
