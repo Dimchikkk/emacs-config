@@ -230,10 +230,10 @@
 (define-key my-keys-minor-mode-map (kbd "M-<return>")  #'ace-window)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
-(define-key my-keys-minor-mode-map (kbd "C-.")         #'duplicate-line)
+(define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-line)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch)
 (define-key my-keys-minor-mode-map (kbd "C-c /")       #'counsel-compilation-errors)
-(define-key my-keys-minor-mode-map (kbd "C-,")         #'mark-sexp)
+(define-key my-keys-minor-mode-map (kbd "C-.")         #'mark-sexp)
 (define-key my-keys-minor-mode-map (kbd "C--")         #'default-text-scale-decrease)
 (define-key my-keys-minor-mode-map (kbd "C-=")         #'default-text-scale-increase)
 (define-key my-keys-minor-mode-map (kbd "C-c C-k")     #'kill-other-buffers)
@@ -306,6 +306,6 @@
 ;; C-x h - select whole file
 ;; C-x 0 - close active window
 ;; C-m instead of Return
-;; C-, to make selection
-;; C-. duplicate line
+;; C-. to make selection
+;; C-, duplicate line
 ;; M-o: wget URL to download to current Dired directory
