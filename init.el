@@ -244,7 +244,7 @@
 (define-key my-keys-minor-mode-map (kbd "C-c RET")     #'counsel-fzf)
 (define-key my-keys-minor-mode-map (kbd "C-c o")       #'find-grep-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-name-dired)
-(define-key my-keys-minor-mode-map (kbd "C-c l")       #'occur-thing-at-point)
+(define-key my-keys-minor-mode-map (kbd "C-c t")       #'occur-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-<return>")  #'ido-switch-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c c")       #'deadgrep)
