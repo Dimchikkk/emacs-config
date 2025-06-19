@@ -215,10 +215,22 @@
             (user-error "No symbol at point")))
       (user-error "Nothing to flip here"))))
 
+(defun duplicate-line ()
+  "Duplicate current line by tsoding"
+  (interactive)
+  (let ((column (- (point) (point-at-bol)))
+        (line (let ((s (thing-at-point 'line t)))
+                (if s (string-remove-suffix "\n" s) ""))))
+    (move-end-of-line 1)
+    (newline)
+    (insert line)
+    (move-beginning-of-line 1)
+    (forward-char column)))
+
 (define-key my-keys-minor-mode-map (kbd "M-<return>")  #'ace-window)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
-(define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-dwim)
+(define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-line)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch)
 (define-key my-keys-minor-mode-map (kbd "C-c /")       #'counsel-compilation-errors)
 (define-key my-keys-minor-mode-map (kbd "C-.")         #'mark-sexp)
