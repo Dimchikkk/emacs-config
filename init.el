@@ -215,22 +215,37 @@
             (user-error "No symbol at point")))
       (user-error "Nothing to flip here"))))
 
-(defun duplicate-line ()
-  "Duplicate current line by tsoding"
+(defun my-duplicate-dwim ()
+  "Call `duplicate-dwim` and move cursor appropriately after duplication.
+If duplicating a line, move point to the duplicated line preserving column.
+If duplicating a region, move point to the new duplicated region and then remove the selection."
   (interactive)
-  (let ((column (- (point) (point-at-bol)))
-        (line (let ((s (thing-at-point 'line t)))
-                (if s (string-remove-suffix "\n" s) ""))))
-    (move-end-of-line 1)
-    (newline)
-    (insert line)
-    (move-beginning-of-line 1)
-    (forward-char column)))
+  (let ((region-active (use-region-p))
+        (col (current-column))
+        beg end new-beg new-end)
+    (if region-active
+        (setq beg (region-beginning)
+              end (region-end))
+      (setq beg (line-beginning-position)
+            end (line-end-position)))
+    (duplicate-dwim)
+    (if region-active
+        ;; Region duplicated: new region inserted after original
+        (progn
+          (setq new-beg (+ end 0)) ;; duplicated text inserted right after original region
+          (setq new-end (+ new-beg (- end beg)))
+          (goto-char new-beg)
+          ;; Remove selection after moving point
+          (deactivate-mark))
+      ;; Line duplicated: move to start of new line preserving column
+      (progn
+        (forward-line 1)
+        (move-to-column col)))))
 
 (define-key my-keys-minor-mode-map (kbd "M-<return>")  #'ace-window)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
-(define-key my-keys-minor-mode-map (kbd "C-,")         #'duplicate-line)
+(define-key my-keys-minor-mode-map (kbd "C-,")         #'my-duplicate-dwim)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch)
 (define-key my-keys-minor-mode-map (kbd "C-c /")       #'counsel-compilation-errors)
 (define-key my-keys-minor-mode-map (kbd "C-.")         #'mark-sexp)
