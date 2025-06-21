@@ -322,5 +322,5 @@ If duplicating a region, move point to the new duplicated region and then remove
 ;; C-x 0 - close active window
 ;; C-m instead of Return
 ;; C-. to make selection
-;; C-, duplicate line
+;; C-, duplicate-dwim
 ;; M-o: wget URL to download to current Dired directory
