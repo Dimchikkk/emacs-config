@@ -248,7 +248,7 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-,")         #'my-duplicate-dwim)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch)
 (define-key my-keys-minor-mode-map (kbd "C-c /")       #'counsel-compilation-errors)
-(define-key my-keys-minor-mode-map (kbd "C-.")         #'mark-sexp)
+(define-key my-keys-minor-mode-map (kbd "C-j")         #'mark-sexp)
 (define-key my-keys-minor-mode-map (kbd "C--")         #'default-text-scale-decrease)
 (define-key my-keys-minor-mode-map (kbd "C-=")         #'default-text-scale-increase)
 (define-key my-keys-minor-mode-map (kbd "C-c C-k")     #'kill-other-buffers)
@@ -321,6 +321,6 @@ If duplicating a region, move point to the new duplicated region and then remove
 ;; C-x h - select whole file
 ;; C-x 0 - close active window
 ;; C-m instead of Return
-;; C-. to make selection
+;; C-j to make selection
 ;; C-, duplicate-dwim
 ;; M-o: wget URL to download to current Dired directory
