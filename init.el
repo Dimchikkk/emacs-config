@@ -242,7 +242,7 @@ If duplicating a region, move point to the new duplicated region and then remove
         (forward-line 1)
         (move-to-column col)))))
 
-(define-key my-keys-minor-mode-map (kbd "M-<return>")  #'ace-window)
+(define-key my-keys-minor-mode-map (kbd "M-<return>")  #'compile)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
 (define-key my-keys-minor-mode-map (kbd "C-,")         #'my-duplicate-dwim)
@@ -266,7 +266,7 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
-(define-key my-keys-minor-mode-map (kbd "C-c j")       #'ace-jump-mode)
+(define-key my-keys-minor-mode-map (kbd "M-o")         #'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "C-c b")       #'rename-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c q")       #'query-replace-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c s")       #'lsp-find-references)
@@ -277,7 +277,6 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c f")       #'bool-flip)
 (define-key my-keys-minor-mode-map (kbd "M-<up>")      #'drag-stuff-up)
 (define-key my-keys-minor-mode-map (kbd "M-<down>")    #'drag-stuff-down)
-(define-key my-keys-minor-mode-map (kbd "M-o")         #'compile)
 (define-key my-keys-minor-mode-map (kbd "C-S-c C-S-c") #'mc/edit-lines)
 (define-key my-keys-minor-mode-map (kbd "C->")         #'mc/mark-next-like-this)
 (define-key my-keys-minor-mode-map (kbd "C-<")         #'mc/mark-previous-like-this)
@@ -318,9 +317,10 @@ If duplicating a region, move point to the new duplicated region and then remove
 
 (winner-mode 1)
 
-;; C-x h - select whole file
-;; C-x 0 - close active window
-;; C-m instead of Return
-;; C-j to make selection
-;; C-, duplicate-dwim
-;; M-o: wget URL to download to current Dired directory
+;; C-x h      - select whole file
+;; C-x 0      - close active window
+;; C-m        - instead of Return
+;; C-j        - to make selection
+;; C-,        - duplicate-dwim
+;; C-x SPC    - rectangle selection
+;; M-<return> - wget URL to download to current Dired directory
