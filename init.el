@@ -256,7 +256,7 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c C-c M-x") #'execute-extended-command)
 (define-key my-keys-minor-mode-map (kbd "C-c C-f")     #'ffap)
 (define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'recentf-open-files)
-(define-key my-keys-minor-mode-map (kbd "C-c RET")     #'counsel-fzf)
+(define-key my-keys-minor-mode-map (kbd "M-o")         #'counsel-fzf)
 (define-key my-keys-minor-mode-map (kbd "C-c o")       #'find-grep-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-name-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c t")       #'occur-thing-at-point)
@@ -266,7 +266,7 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
-(define-key my-keys-minor-mode-map (kbd "M-o")         #'ace-jump-mode)
+(define-key my-keys-minor-mode-map (kbd "C-c j")       #'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "C-c b")       #'rename-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c q")       #'query-replace-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c s")       #'lsp-find-references)
@@ -316,6 +316,8 @@ If duplicating a region, move point to the new duplicated region and then remove
 (setq deadgrep-extra-arguments '("--multiline"))
 
 (winner-mode 1)
+
+(setq mc/always-run-for-all t)
 
 ;; C-x h      - select whole file
 ;; C-x 0      - close active window
