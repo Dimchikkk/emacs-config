@@ -182,39 +182,6 @@
   (interactive)
   (let ((term (thing-at-point 'symbol t))) (counsel-git-grep term)))
 
-(defcustom bool-flip-alist
-  '(("T"    . "F")
-    ("t"    . "f")
-    ("TRUE" . "FALSE")
-    ("True" . "False")
-    ("true" . "false")
-    ("Y"    . "N")
-    ("y"    . "n")
-    ("YES"  . "NO")
-    ("Yes"  . "No")
-    ("yes"  . "no")
-    ("1"    . "0"))
-  "Alist mapping booleans to their opposites for `bool-flip`.")
-
-(defun bool-flip()
-  "Replace the boolean at point with its opposite."
-  (interactive)
-  (let* ((old (thing-at-point 'symbol t)) ;; Use `t` to strip properties
-         (new (or (cdr (assoc old bool-flip-alist))
-                  (car (rassoc old bool-flip-alist)))))
-    (if new
-        (let ((bounds (bounds-of-thing-at-point 'symbol)))
-          (if bounds
-              (let ((beg (car bounds))
-                    (end (cdr bounds)))
-                (let ((insert-after (= (point) beg)))
-                  (delete-region beg end)
-                  (insert new)
-                  (when insert-after
-                    (goto-char beg))))
-            (user-error "No symbol at point")))
-      (user-error "Nothing to flip here"))))
-
 (defun my-duplicate-dwim ()
   "Call `duplicate-dwim` and move cursor appropriately after duplication.
 If duplicating a line, move point to the duplicated line preserving column.
@@ -267,14 +234,13 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
 (define-key my-keys-minor-mode-map (kbd "C-c j")       #'ace-jump-mode)
-(define-key my-keys-minor-mode-map (kbd "C-c b")       #'rename-buffer)
+(define-key my-keys-minor-mode-map (kbd "C-c r")       #'rename-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c q")       #'query-replace-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c s")       #'lsp-find-references)
 (define-key my-keys-minor-mode-map (kbd "C-c m")       #'olivetti-mode)
 (define-key my-keys-minor-mode-map (kbd "C-c v")       #'vundo)
 (define-key my-keys-minor-mode-map (kbd "C-c x")       #'kill-buffer-and-window)
 (define-key my-keys-minor-mode-map (kbd "C-c y")       #'browse-kill-ring)
-(define-key my-keys-minor-mode-map (kbd "C-c f")       #'bool-flip)
 (define-key my-keys-minor-mode-map (kbd "M-<up>")      #'drag-stuff-up)
 (define-key my-keys-minor-mode-map (kbd "M-<down>")    #'drag-stuff-down)
 (define-key my-keys-minor-mode-map (kbd "C-S-c C-S-c") #'mc/edit-lines)
@@ -283,6 +249,8 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c C-<")     #'mc/mark-all-like-this)
 (define-key my-keys-minor-mode-map (kbd "M-p")         #'previous-error)
 (define-key my-keys-minor-mode-map (kbd "M-n")         #'next-error)
+(define-key my-keys-minor-mode-map (kbd "C-c f")       #'winner-redo)
+(define-key my-keys-minor-mode-map (kbd "C-c b")       #'winner-undo)
 (define-key projectile-mode-map (kbd "C-c p")          #'projectile-command-map)
 
 (define-key rustic-mode-map (kbd "C-c 3") #'rustic-cargo-build)
