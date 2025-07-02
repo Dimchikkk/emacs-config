@@ -106,10 +106,13 @@
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("package-lock.json" . text-mode))
-(add-to-list 'auto-mode-alist '("\\.java\\'" . java-mode))
+
+(savehist-mode 1)
+(setq savehist-additional-variables '(compile-command))
+(require 'lsp-java) ;; install manually
+(add-hook 'java-mode-hook #'lsp)
 
 (require 'rustic)
-(add-hook 'java-mode-hook #'lsp)
 (add-hook 'js2-mode-hook #'lsp)
 (add-hook 'rustic-mode-hook #'lsp)
 (add-hook 'typescript-mode-hook #'lsp)
