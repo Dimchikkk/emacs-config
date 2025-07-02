@@ -212,7 +212,7 @@ If duplicating a region, move point to the new duplicated region and then remove
         (forward-line 1)
         (move-to-column col)))))
 
-(define-key my-keys-minor-mode-map (kbd "M-<return>")  #'compile)
+(define-key my-keys-minor-mode-map (kbd "C-<return>")  #'compile)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
 (define-key my-keys-minor-mode-map (kbd "C-,")         #'my-duplicate-dwim)
@@ -230,7 +230,7 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c o")       #'find-grep-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'find-name-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c t")       #'occur-thing-at-point)
-(define-key my-keys-minor-mode-map (kbd "C-<return>")  #'ido-switch-buffer)
+(define-key my-keys-minor-mode-map (kbd "M-<return>")  #'ido-switch-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c c")       #'deadgrep)
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
