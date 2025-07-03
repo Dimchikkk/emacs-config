@@ -296,4 +296,4 @@ If duplicating a region, move point to the new duplicated region and then remove
 ;; C-j        - to make selection
 ;; C-,        - duplicate-dwim
 ;; C-x SPC    - rectangle selection
-;; M-<return> - wget URL to download to current Dired directory
+;; C-<return> - wget URL to download to current Dired directory
