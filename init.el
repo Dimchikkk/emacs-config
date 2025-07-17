@@ -297,3 +297,4 @@ If duplicating a region, move point to the new duplicated region and then remove
 ;; C-,        - duplicate-dwim
 ;; C-x SPC    - rectangle selection
 ;; C-<return> - wget URL to download to current Dired directory
+;; open magit, then press 'y', then b b RET to open local branch or b c RET to create local from remote
