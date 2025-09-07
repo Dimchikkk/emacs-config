@@ -117,6 +117,8 @@
 (add-hook 'rustic-mode-hook #'lsp)
 (add-hook 'typescript-mode-hook #'lsp)
 
+(add-hook 'c-mode-hook #'lsp)
+
 (setq buffer-save-without-query t)
 (setq make-backup-files nil)
 
@@ -289,6 +291,24 @@ If duplicating a region, move point to the new duplicated region and then remove
 (winner-mode 1)
 
 (setq mc/always-run-for-all t)
+
+(use-package multiple-cursors
+  :init
+  (use-package phi-search
+    :init
+    ;; credit to @jonebird for the following
+    ;; Allow isearch functionality with multipl-cursors
+    (add-hook 'multiple-cursors-mode-enabled-hook
+              (lambda ()
+                (interactive)
+                (global-set-key (kbd "C-s") 'phi-search)
+                (global-set-key (kbd "C-r") 'phi-search-backward)))
+
+    (add-hook 'multiple-cursors-mode-disabled-hook
+              (lambda ()
+                (interactive)
+                (global-set-key (kbd "C-s") 'isearch-forward)
+                (global-set-key (kbd "C-r") 'isearch-backward)))))
 
 ;; C-x h      - select whole file
 ;; C-x 0      - close active window
