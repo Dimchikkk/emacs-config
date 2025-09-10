@@ -107,6 +107,11 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("package-lock.json" . text-mode))
 
+(dolist (hook '(c-mode-hook))
+  (add-hook hook
+            (lambda ()
+              (add-hook 'before-save-hook #'whitespace-cleanup nil t))))
+
 (savehist-mode 1)
 (setq savehist-additional-variables '(compile-command))
 (require 'lsp-java) ;; install manually
@@ -257,10 +262,6 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c f")       #'winner-redo)
 (define-key my-keys-minor-mode-map (kbd "C-c b")       #'winner-undo)
 (define-key projectile-mode-map (kbd "C-c p")          #'projectile-command-map)
-
-(define-key rustic-mode-map (kbd "C-c 3") #'rustic-cargo-build)
-(define-key rustic-mode-map (kbd "C-c 4") #'rustic-cargo-run)
-(define-key rustic-mode-map (kbd "C-c 5") #'rustic-cargo-test)
 
 (define-key ido-file-completion-map (kbd "C-n") #'ido-next-match)
 (define-key ido-file-completion-map (kbd "C-p") #'ido-prev-match)
