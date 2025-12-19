@@ -12,6 +12,7 @@
                      dumb-jump
                      exec-path-from-shell
                      gruber-darker-theme
+                     markdown-preview-mode
                      multiple-cursors
                      rustic
                      flx-ido
@@ -53,6 +54,13 @@
   (unless (package-installed-p package)
     (package-install package)))
 
+(when (eq system-type 'darwin)
+  (setq
+   ns-command-modifier 'control
+   ns-option-modifier 'meta
+   ns-control-modifier 'super
+   ns-function-modifier 'hyper))
+
 (setq auto-save-visited-mode t)
 (setq inhibit-startup-message t)
 
@@ -83,7 +91,9 @@
 (flx-ido-mode 1)
 (setq ido-enable-flex-matching t)
 
-(set-frame-font "Ubuntu Mono 14" nil t)
+(if (eq system-type 'darwin)
+    (set-frame-font "Ubuntu Mono 18" nil t)
+  (set-frame-font "Ubuntu Mono 14" nil t))
 
 (smex-initialize)
 
@@ -114,6 +124,8 @@
 
 (savehist-mode 1)
 (setq savehist-additional-variables '(compile-command))
+;; Use jdtls 1.40.0 (last version supporting Java 17)
+(setq lsp-java-jdt-download-url "https://download.eclipse.org/jdtls/milestones/1.40.0/jdt-language-server-1.40.0-202409261450.tar.gz")
 (require 'lsp-java) ;; install manually
 (add-hook 'java-mode-hook #'lsp)
 
@@ -123,6 +135,7 @@
 (add-hook 'typescript-mode-hook #'lsp)
 
 (add-hook 'c-mode-hook #'lsp)
+(add-hook 'python-mode-hook #'lsp)
 
 (setq buffer-save-without-query t)
 (setq make-backup-files nil)
@@ -141,7 +154,12 @@
 (setq dired-dwim-target t)
 (setq dired-auto-revert-buffer t)
 ;; requires coreutils
-(setq insert-directory-program "ls" dired-use-ls-dired t)
+
+(if (eq system-type 'darwin)
+    (setq insert-directory-program "gls")
+  (setq insert-directory-program "ls"))
+
+(setq dired-use-ls-dired t)
 (setq dired-listing-switches "-alh --group-directories-first")
 
 (drag-stuff-global-mode)
@@ -312,6 +330,8 @@ If duplicating a region, move point to the new duplicated region and then remove
                 (global-set-key (kbd "C-s") 'isearch-forward)
                 (global-set-key (kbd "C-r") 'isearch-backward)))))
 
+(setq markdown-command "pandoc")
+
 ;; C-x h      - select whole file
 ;; C-x 0      - close active window
 ;; C-m        - instead of Return
@@ -320,3 +340,4 @@ If duplicating a region, move point to the new duplicated region and then remove
 ;; C-x SPC    - rectangle selection
 ;; C-<return> - wget URL to download to current Dired directory
 ;; open magit, then press 'y', then b b RET to open local branch or b c RET to create local from remote
+;; C-j in magit - visit source file
