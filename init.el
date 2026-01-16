@@ -34,7 +34,7 @@
                      typescript-mode
                      vundo
                      vlf
-                     yaml-mode
+                     yaml-pro
                      wgrep
                      which-key
                      )
@@ -116,6 +116,7 @@
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("package-lock.json" . text-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-pro-mode))
 
 (dolist (hook '(c-mode-hook))
   (add-hook hook
@@ -124,9 +125,19 @@
 
 (savehist-mode 1)
 (setq savehist-additional-variables '(compile-command))
-;; Use jdtls 1.40.0 (last version supporting Java 17)
-(setq lsp-java-jdt-download-url "https://download.eclipse.org/jdtls/milestones/1.40.0/jdt-language-server-1.40.0-202409261450.tar.gz")
-(require 'lsp-java) ;; install manually
+(use-package lsp-java
+  :ensure t
+  :config
+  (setq lsp-java-jdt-download-url
+        "https://download.eclipse.org/jdtls/milestones/1.40.0/jdt-language-server-1.40.0-202409261450.tar.gz")
+
+  (setq lsp-java-vmargs
+        '("-XX:+UseParallelGC"
+          "-XX:GCTimeRatio=4"
+          "-Xmx2G"
+          "-Xms512m"))
+
+  :hook (java-mode . lsp))
 (add-hook 'java-mode-hook #'lsp)
 
 (require 'rustic)
@@ -341,3 +352,4 @@ If duplicating a region, move point to the new duplicated region and then remove
 ;; C-<return> - wget URL to download to current Dired directory
 ;; open magit, then press 'y', then b b RET to open local branch or b c RET to create local from remote
 ;; C-j in magit - visit source file
+
