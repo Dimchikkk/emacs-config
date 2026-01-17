@@ -247,6 +247,15 @@ If duplicating a region, move point to the new duplicated region and then remove
       (progn
         (forward-line 1)
         (move-to-column col)))))
+(defun my/open-repo ()
+  "Open git repo in browser"
+  (interactive)
+  (let ((url (shell-command-to-string "git remote get-url origin")))
+    (browse-url
+     (replace-regexp-in-string
+      "\\.git\n" ""
+      (replace-regexp-in-string
+       "git@github\\.com:" "https://github.com/" url)))))
 
 (define-key my-keys-minor-mode-map (kbd "C-<return>")  #'compile)
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
@@ -275,6 +284,7 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
 (define-key my-keys-minor-mode-map (kbd "C-c j")       #'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "C-c r")       #'rename-buffer)
+(define-key my-keys-minor-mode-map (kbd "C-c C-r")     #'my/open-repo)
 (define-key my-keys-minor-mode-map (kbd "C-c q")       #'query-replace-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c s")       #'lsp-find-references)
 (define-key my-keys-minor-mode-map (kbd "C-c m")       #'olivetti-mode)
