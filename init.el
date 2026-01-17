@@ -342,7 +342,7 @@ If duplicating a region, move point to the new duplicated region and then remove
                 (global-set-key (kbd "C-r") 'isearch-backward)))))
 
 (setq markdown-command "pandoc")
-
+(setq bookmark-save-flag 1)
 ;; C-x h      - select whole file
 ;; C-x 0      - close active window
 ;; C-m        - instead of Return
