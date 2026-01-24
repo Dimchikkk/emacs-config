@@ -175,6 +175,10 @@
 
 (drag-stuff-global-mode)
 
+;; Speed up exec-path-from-shell on macOS
+(when (eq system-type 'darwin)
+  (setq exec-path-from-shell-check-startup-files nil)
+  (setq exec-path-from-shell-arguments '("-l")))
 (exec-path-from-shell-initialize)
 (setq-default shell-file-name (or (executable-find "fish") "/bin/bash"))
 (setq-default indent-tabs-mode nil)
