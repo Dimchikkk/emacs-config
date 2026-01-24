@@ -129,7 +129,7 @@
   :ensure t
   :config
   (setq lsp-java-jdt-download-url
-        "https://download.eclipse.org/jdtls/milestones/1.40.0/jdt-language-server-1.40.0-202409261450.tar.gz")
+        "https://download.eclipse.org/jdtls/milestones/1.44.0/jdt-language-server-1.44.0-202501221502.tar.gz")
 
   (setq lsp-java-vmargs
         '("-XX:+UseParallelGC"
@@ -352,6 +352,15 @@ If duplicating a region, move point to the new duplicated region and then remove
                 (global-set-key (kbd "C-r") 'isearch-backward)))))
 
 (setq markdown-command "pandoc")
+
+(defun start-process@use-pipe (fn &rest args)
+    ;; checkdoc-params: (fn args)
+    "Advice to ensure that `start-process' uses a pipe rather than
+a pty for the compilation command. This increases performance on OSX
+by a factor of 10, as the default pty size is a pitiful 1024 bytes."
+    (let ((process-connection-type nil))
+      (apply fn args)))
+
 (setq bookmark-save-flag 1)
 ;; C-x h      - select whole file
 ;; C-x 0      - close active window
