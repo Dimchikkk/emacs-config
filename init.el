@@ -205,6 +205,7 @@
         ("FIXME"  . "#A020F0")
         ("NOTE"  .  "#1E90FF")))
 (magit-todos-mode 1)
+(setq magit-process-connection-type nil)
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode Keymap.")
 
