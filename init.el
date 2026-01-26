@@ -366,6 +366,9 @@ by a factor of 10, as the default pty size is a pitiful 1024 bytes."
     (let ((process-connection-type nil))
       (apply fn args)))
 
+(setq native-comp-warning-on-missing-source nil
+      native-comp-async-report-warnings-errors 'silent)
+
 (setq bookmark-save-flag 1)
 ;; C-x h      - select whole file
 ;; C-x 0      - close active window
