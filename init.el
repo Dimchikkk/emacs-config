@@ -2,6 +2,7 @@
                      ace-jump-mode
                      browse-kill-ring
                      counsel
+                     counsel-projectile
                      company
                      default-text-scale
                      deadgrep
@@ -23,7 +24,7 @@
                      lsp-mode
                      lsp-ui
                      magit
-                     magit-todos
+;;                   magit-todos
                      olivetti
                      pretty-mode
                      projectile
@@ -84,7 +85,6 @@
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
 (global-display-line-numbers-mode 1)
-(setq display-line-numbers-type 'relative)
 
 (ido-mode t)
 (ido-everywhere 1)
@@ -107,7 +107,22 @@
 (setq lsp-signature-render-documentation nil)
 (setq lsp-auto-guess-root nil)
 
-(projectile-mode +1)
+(use-package projectile
+  :config
+  (setq projectile-enable-caching t)
+  (setq projectile-cache-file (expand-file-name "projectile.cache" user-emacs-directory))
+  (setq projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" user-emacs-directory))
+  (projectile-load-known-projects))
+
+(use-package counsel-projectile
+  :config
+  (counsel-projectile-mode 1))
+
+(use-package ivy
+  :config
+  (setq ivy-re-builders-alist
+        '((counsel-projectile-find-file . ivy--regex-fuzzy)
+          (t . ivy--regex-plus))))
 
 (delete-selection-mode 1)
 
@@ -203,13 +218,39 @@
 (setq-default bidi-paragraph-direction 'left-to-right)
 (setq bidi-inhibit-bpa t)
 (setenv "FZF_DEFAULT_COMMAND" "rg --files")
+
+(use-package magit
+  :ensure t
+  :custom
+  (magit-git-executable "/usr/local/bin/git")
+  (magit-process-connection-type nil)
+  :init
+  (use-package with-editor :ensure t)
+
+  ;; Have magit-status go full screen and quit to previous
+  ;; configuration.  Taken from
+  ;; http://whattheemacsd.com/setup-magit.el-01.html#comment-748135498
+  ;; and http://irreal.org/blog/?p=2253
+  (defadvice magit-status (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+  (defadvice magit-quit-window (after magit-restore-screen activate)
+    (jump-to-register :magit-fullscreen))
+  :config
+  (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
+  (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent))
+
 (setq magit-git-executable (locate-file "git" exec-path))
 (setq hl-todo-keyword-faces
       '(("TODO"   . "#A020F0")
         ("FIXME"  . "#A020F0")
         ("NOTE"  .  "#1E90FF")))
-(magit-todos-mode 1)
-(setq magit-process-connection-type nil)
+;; (magit-todos-mode 1)
 
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode Keymap.")
 
@@ -266,7 +307,8 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
 (define-key my-keys-minor-mode-map (kbd "C-,")         #'my-duplicate-dwim)
-(define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'swiper-isearch)
+(define-key my-keys-minor-mode-map (kbd "C-s")         #'swiper-isearch)
+(define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'isearch-forward)
 (define-key my-keys-minor-mode-map (kbd "C-c /")       #'counsel-compilation-errors)
 (define-key my-keys-minor-mode-map (kbd "C-j")         #'mark-sexp)
 (define-key my-keys-minor-mode-map (kbd "C--")         #'default-text-scale-decrease)
@@ -276,14 +318,16 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c C-c M-x") #'execute-extended-command)
 (define-key my-keys-minor-mode-map (kbd "C-c C-f")     #'ffap)
 (define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'recentf-open-files)
-(define-key my-keys-minor-mode-map (kbd "M-o")         #'counsel-fzf)
+;; (define-key my-keys-minor-mode-map (kbd "M-o")         #'counsel-fzf)
+(define-key my-keys-minor-mode-map (kbd "M-o")         #'counsel-projectile-find-file)
 (define-key my-keys-minor-mode-map (kbd "C-c t")       #'find-grep-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-t")     #'find-name-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c o")       #'occur-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'occur)
-(define-key my-keys-minor-mode-map (kbd "M-<return>")  #'ido-switch-buffer)
+(define-key my-keys-minor-mode-map (kbd "M-<return>")  #'counsel-switch-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
-(define-key my-keys-minor-mode-map (kbd "C-c c")       #'deadgrep)
+(define-key my-keys-minor-mode-map (kbd "C-c d")       #'deadgrep)
+(define-key my-keys-minor-mode-map (kbd "C-c c")       #'counsel-rg)
 (define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
@@ -353,7 +397,7 @@ If duplicating a region, move point to the new duplicated region and then remove
     (add-hook 'multiple-cursors-mode-disabled-hook
               (lambda ()
                 (interactive)
-                (global-set-key (kbd "C-s") 'isearch-forward)
+                (global-set-key (kbd "C-c C-s") 'isearch-forward)
                 (global-set-key (kbd "C-r") 'isearch-backward)))))
 
 (setq markdown-command "pandoc")
@@ -379,4 +423,3 @@ by a factor of 10, as the default pty size is a pitiful 1024 bytes."
 ;; C-<return> - wget URL to download to current Dired directory
 ;; open magit, then press 'y', then b b RET to open local branch or b c RET to create local from remote
 ;; C-j in magit - visit source file
-
