@@ -1,8 +1,13 @@
+;; Faster startup
+(defvar default-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+(add-hook 'emacs-startup-hook
+  (lambda () (setq file-name-handler-alist default-file-name-handler-alist)))
+
 (setq package-list '(
                      ace-jump-mode
                      browse-kill-ring
-                     counsel
-                     counsel-projectile
+                     consult
                      company
                      default-text-scale
                      deadgrep
@@ -11,12 +16,15 @@
                      doom-modeline
                      doom-themes
                      dumb-jump
+                     embark
+                     embark-consult
                      exec-path-from-shell
                      gruber-darker-theme
                      markdown-preview-mode
+                     marginalia
                      multiple-cursors
+                     orderless
                      rustic
-                     flx-ido
                      go-mode
                      hl-todo
                      htmlize
@@ -24,15 +32,13 @@
                      lsp-mode
                      lsp-ui
                      magit
-;;                   magit-todos
                      olivetti
                      pretty-mode
                      projectile
                      rainbow-mode
-                     smex
-                     swiper
                      sudo-edit
                      typescript-mode
+                     vertico
                      vundo
                      vlf
                      yaml-pro
@@ -62,7 +68,7 @@
    ns-control-modifier 'super
    ns-function-modifier 'hyper))
 
-(setq auto-save-visited-mode t)
+(auto-save-visited-mode 1)
 (setq inhibit-startup-message t)
 
 (defvar my-auto-save-folder "~/.emacs.d/auto-save/" "Directory to store auto-save files.")
@@ -77,6 +83,10 @@
 (setq recentf-max-menu-items 25)
 (setq recentf-max-saved-items 25)
 
+(save-place-mode 1)
+(global-auto-revert-mode 1)
+(pixel-scroll-precision-mode 1)
+
 (require 'gruber-darker-theme)
 (load-theme 'gruber-darker t)
 (menu-bar-mode -1)
@@ -86,16 +96,39 @@
 (setq ring-bell-function 'ignore)
 (global-display-line-numbers-mode 1)
 
-(ido-mode t)
-(ido-everywhere 1)
-(flx-ido-mode 1)
-(setq ido-enable-flex-matching t)
-
 (if (eq system-type 'darwin)
     (set-frame-font "Ubuntu Mono 18" nil t)
   (set-frame-font "Ubuntu Mono 14" nil t))
 
-(smex-initialize)
+(use-package vertico
+  :init
+  (vertico-mode)
+  :config
+  (setq vertico-cycle t))
+
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-category-defaults nil)
+  (completion-pcm-leading-wildcard t)
+  (orderless-matching-styles '(orderless-flex)))
+
+(use-package marginalia
+  :init
+  (marginalia-mode))
+
+(use-package consult
+  :config
+  (setq consult-project-root-function #'projectile-project-root))
+
+(use-package embark
+  :bind
+  (("C-." . embark-act)
+   ("C-;" . embark-dwim)))
+
+(use-package embark-consult
+  :after (embark consult))
 
 (setq lsp-rust-analyzer-completion-auto-import-enable t)
 
@@ -109,20 +142,12 @@
 
 (use-package projectile
   :config
+  (projectile-mode +1)
   (setq projectile-enable-caching t)
   (setq projectile-cache-file (expand-file-name "projectile.cache" user-emacs-directory))
   (setq projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" user-emacs-directory))
   (projectile-load-known-projects))
 
-(use-package counsel-projectile
-  :config
-  (counsel-projectile-mode 1))
-
-(use-package ivy
-  :config
-  (setq ivy-re-builders-alist
-        '((counsel-projectile-find-file . ivy--regex-fuzzy)
-          (t . ivy--regex-plus))))
 
 (delete-selection-mode 1)
 
@@ -153,7 +178,6 @@
           "-Xms512m"))
 
   :hook (java-mode . lsp))
-(add-hook 'java-mode-hook #'lsp)
 
 (require 'rustic)
 (add-hook 'js2-mode-hook #'lsp)
@@ -173,9 +197,9 @@
 (defun save-all() (interactive) (save-some-buffers t))
 (add-hook 'focus-out-hook 'save-all)
 
-(defalias 'yes-or-no-p 'y-or-n-p)
+(setq use-short-answers t)
 
-(require #'dired-x)
+(require 'dired-x)
 (setq dired-omit-files "^\\...+$")
 (setq dired-dwim-target t)
 (setq dired-auto-revert-buffer t)
@@ -196,8 +220,6 @@
   (setq exec-path-from-shell-arguments '("-l")))
 (exec-path-from-shell-initialize)
 (setq-default shell-file-name (or (executable-find "fish") "/bin/bash"))
-(setq-default indent-tabs-mode nil)
-
 ;; requires (nerd-icons-install-fonts)
 (doom-modeline-mode)
 (global-hl-todo-mode)
@@ -222,7 +244,7 @@
 (use-package magit
   :ensure t
   :custom
-  (magit-git-executable "/usr/local/bin/git")
+  (magit-git-executable (if (eq system-type 'darwin) "/opt/homebrew/bin/git" "git"))
   (magit-process-connection-type nil)
   :init
   (use-package with-editor :ensure t)
@@ -231,21 +253,22 @@
   ;; configuration.  Taken from
   ;; http://whattheemacsd.com/setup-magit.el-01.html#comment-748135498
   ;; and http://irreal.org/blog/?p=2253
-  (defadvice magit-status (around magit-fullscreen activate)
+  (defun my/magit-status-fullscreen (orig-fun &rest args)
     (window-configuration-to-register :magit-fullscreen)
-    ad-do-it
+    (apply orig-fun args)
     (delete-other-windows))
-  (defadvice magit-quit-window (after magit-restore-screen activate)
+  (advice-add 'magit-status :around #'my/magit-status-fullscreen)
+
+  (defun my/magit-quit-restore (&rest _)
     (jump-to-register :magit-fullscreen))
+  (advice-add 'magit-quit-window :after #'my/magit-quit-restore)
   :config
   (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
-  (remove-hook 'magit-status-sections-hook 'magit-insert-status-headers)
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent))
 
-(setq magit-git-executable (locate-file "git" exec-path))
 (setq hl-todo-keyword-faces
       '(("TODO"   . "#A020F0")
         ("FIXME"  . "#A020F0")
@@ -263,9 +286,9 @@
   (interactive)
   (let ((term (thing-at-point 'symbol t))) (occur term)))
 
-(defun counsel-git-grep-at-point()
+(defun consult-git-grep-at-point()
   (interactive)
-  (let ((term (thing-at-point 'symbol t))) (counsel-git-grep term)))
+  (let ((term (thing-at-point 'symbol t))) (consult-git-grep nil term)))
 
 (defun my-duplicate-dwim ()
   "Call `duplicate-dwim` and move cursor appropriately after duplication.
@@ -304,12 +327,11 @@ If duplicating a region, move point to the new duplicated region and then remove
        "git@github\\.com:" "https://github.com/" url)))))
 
 (define-key my-keys-minor-mode-map (kbd "C-<return>")  #'compile)
-(define-key my-keys-minor-mode-map (kbd "M-X")         #'smex-major-mode-commands)
-(define-key my-keys-minor-mode-map (kbd "M-x")         #'smex)
+(define-key my-keys-minor-mode-map (kbd "M-x")         #'execute-extended-command)
 (define-key my-keys-minor-mode-map (kbd "C-,")         #'my-duplicate-dwim)
-(define-key my-keys-minor-mode-map (kbd "C-s")         #'swiper-isearch)
+(define-key my-keys-minor-mode-map (kbd "C-s")         #'consult-line)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'isearch-forward)
-(define-key my-keys-minor-mode-map (kbd "C-c /")       #'counsel-compilation-errors)
+(define-key my-keys-minor-mode-map (kbd "C-c /")       #'consult-compile-error)
 (define-key my-keys-minor-mode-map (kbd "C-j")         #'mark-sexp)
 (define-key my-keys-minor-mode-map (kbd "C--")         #'default-text-scale-decrease)
 (define-key my-keys-minor-mode-map (kbd "C-=")         #'default-text-scale-increase)
@@ -317,20 +339,19 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c =")       #'sort-lines)
 (define-key my-keys-minor-mode-map (kbd "C-c C-c M-x") #'execute-extended-command)
 (define-key my-keys-minor-mode-map (kbd "C-c C-f")     #'ffap)
-(define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'recentf-open-files)
-;; (define-key my-keys-minor-mode-map (kbd "M-o")         #'counsel-fzf)
-(define-key my-keys-minor-mode-map (kbd "M-o")         #'counsel-projectile-find-file)
+(define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'consult-recent-file)
+(define-key my-keys-minor-mode-map (kbd "M-o")         #'projectile-find-file)
 (define-key my-keys-minor-mode-map (kbd "C-c t")       #'find-grep-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c C-t")     #'find-name-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c o")       #'occur-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'occur)
-(define-key my-keys-minor-mode-map (kbd "M-<return>")  #'counsel-switch-buffer)
+(define-key my-keys-minor-mode-map (kbd "M-<return>")  #'consult-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c d")       #'deadgrep)
-(define-key my-keys-minor-mode-map (kbd "C-c c")       #'counsel-rg)
-(define-key my-keys-minor-mode-map (kbd "C-c g")       #'counsel-git-grep-at-point)
+(define-key my-keys-minor-mode-map (kbd "C-c c")       #'consult-ripgrep)
+(define-key my-keys-minor-mode-map (kbd "C-c g")       #'consult-git-grep-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
-(define-key my-keys-minor-mode-map (kbd "C-c i")       #'counsel-imenu)
+(define-key my-keys-minor-mode-map (kbd "C-c i")       #'consult-imenu)
 (define-key my-keys-minor-mode-map (kbd "C-c j")       #'ace-jump-mode)
 (define-key my-keys-minor-mode-map (kbd "C-c r")       #'rename-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c C-r")     #'my/open-repo)
@@ -352,14 +373,12 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c b")       #'winner-undo)
 (define-key projectile-mode-map (kbd "C-c p")          #'projectile-command-map)
 
-(define-key ido-file-completion-map (kbd "C-n") #'ido-next-match)
-(define-key ido-file-completion-map (kbd "C-p") #'ido-prev-match)
-(define-key ido-buffer-completion-map (kbd "C-n") #'ido-next-match)
-(define-key ido-buffer-completion-map (kbd "C-p") #'ido-prev-match)
 
 (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
-  t " my-keys" #'my-keys-minor-mode-map)
+  :init-value t
+  :lighter " my-keys"
+  :keymap my-keys-minor-mode-map)
 
 (my-keys-minor-mode 1)
 
@@ -409,6 +428,7 @@ a pty for the compilation command. This increases performance on OSX
 by a factor of 10, as the default pty size is a pitiful 1024 bytes."
     (let ((process-connection-type nil))
       (apply fn args)))
+(advice-add 'start-process :around #'start-process@use-pipe)
 
 (setq native-comp-warning-on-missing-source nil
       native-comp-async-report-warnings-errors 'silent)
