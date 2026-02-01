@@ -128,7 +128,9 @@
    ("C-;" . embark-dwim)))
 
 (use-package embark-consult
-  :after (embark consult))
+  :after (embark consult)
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (setq lsp-rust-analyzer-completion-auto-import-enable t)
 
@@ -286,11 +288,7 @@
   (interactive)
   (let ((term (thing-at-point 'symbol t))) (occur term)))
 
-(defun consult-git-grep-at-point()
-  (interactive)
-  (let ((term (thing-at-point 'symbol t))) (consult-git-grep nil term)))
-
-(defun my-duplicate-dwim ()
+(defun myduplicate-dwim ()
   "Call `duplicate-dwim` and move cursor appropriately after duplication.
 If duplicating a line, move point to the duplicated line preserving column.
 If duplicating a region, move point to the new duplicated region and then remove the selection."
@@ -326,10 +324,28 @@ If duplicating a region, move point to the new duplicated region and then remove
       (replace-regexp-in-string
        "git@github\\.com:" "https://github.com/" url)))))
 
+(defun my/consult-line ()
+  "Consult-line with selected text if region is active."
+  (interactive)
+  (if (use-region-p)
+      (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
+        (deactivate-mark)
+        (consult-line text))
+    (consult-line)))
+
+(defun my/consult-ripgrep ()
+  "Consult-ripgrep with selected text if region is active."
+  (interactive)
+  (if (use-region-p)
+      (let ((text (buffer-substring-no-properties (region-beginning) (region-end))))
+        (deactivate-mark)
+        (consult-ripgrep nil text))
+    (consult-ripgrep)))
+
 (define-key my-keys-minor-mode-map (kbd "C-<return>")  #'compile)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'execute-extended-command)
-(define-key my-keys-minor-mode-map (kbd "C-,")         #'my-duplicate-dwim)
-(define-key my-keys-minor-mode-map (kbd "C-s")         #'consult-line)
+(define-key my-keys-minor-mode-map (kbd "C-,")         #'my/duplicate-dwim)
+(define-key my-keys-minor-mode-map (kbd "C-s")         #'my/consult-line)
 (define-key my-keys-minor-mode-map (kbd "C-c C-s")     #'isearch-forward)
 (define-key my-keys-minor-mode-map (kbd "C-c /")       #'consult-compile-error)
 (define-key my-keys-minor-mode-map (kbd "C-j")         #'mark-sexp)
@@ -341,15 +357,14 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c C-f")     #'ffap)
 (define-key my-keys-minor-mode-map (kbd "C-c SPC")     #'consult-recent-file)
 (define-key my-keys-minor-mode-map (kbd "M-o")         #'projectile-find-file)
-(define-key my-keys-minor-mode-map (kbd "C-c t")       #'find-grep-dired)
-(define-key my-keys-minor-mode-map (kbd "C-c C-t")     #'find-name-dired)
+(define-key my-keys-minor-mode-map (kbd "C-c g")       #'find-grep-dired)
+(define-key my-keys-minor-mode-map (kbd "C-c C-g")     #'find-name-dired)
 (define-key my-keys-minor-mode-map (kbd "C-c o")       #'occur-thing-at-point)
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'occur)
 (define-key my-keys-minor-mode-map (kbd "M-<return>")  #'consult-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c d")       #'deadgrep)
-(define-key my-keys-minor-mode-map (kbd "C-c c")       #'consult-ripgrep)
-(define-key my-keys-minor-mode-map (kbd "C-c g")       #'consult-git-grep-at-point)
+(define-key my-keys-minor-mode-map (kbd "C-c c")       #'my/consult-ripgrep)
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'consult-imenu)
 (define-key my-keys-minor-mode-map (kbd "C-c j")       #'ace-jump-mode)
@@ -432,14 +447,19 @@ by a factor of 10, as the default pty size is a pitiful 1024 bytes."
 
 (setq native-comp-warning-on-missing-source nil
       native-comp-async-report-warnings-errors 'silent)
+(put 'narrow-to-region 'disabled nil)
 
 (setq bookmark-save-flag 1)
-;; C-x h      - select whole file
-;; C-x 0      - close active window
-;; C-m        - instead of Return
-;; C-j        - to make selection
-;; C-,        - duplicate-dwim
-;; C-x SPC    - rectangle selection
-;; C-<return> - wget URL to download to current Dired directory
+;; C-x h         - select whole file
+;; C-x 0         - close active window
+;; C-m           - instead of Return
+;; C-j           - to make selection
+;; C-,           - duplicate-dwim
+;; C-x SPC       - rectangle selection
+;; C-<return>    - wget URL to download to current Dired directory
 ;; open magit, then press 'y', then b b RET to open local branch or b c RET to create local from remote
-;; C-j in magit - visit source file
+;; C-j in magit  - visit source file
+;; rg: -s case-sensitive; -F fixed strings; -w word-regexp; -a search binary
+;; use deadgrep for multiline search
+;; C-x n n       - narrow to region
+;; C-x n w       - widen
