@@ -11,6 +11,7 @@
                      company
                      default-text-scale
                      deadgrep
+                     dired-sidebar
                      dockerfile-mode
                      drag-stuff
                      doom-modeline
@@ -288,7 +289,7 @@
   (interactive)
   (let ((term (thing-at-point 'symbol t))) (occur term)))
 
-(defun myduplicate-dwim ()
+(defun my/duplicate-dwim ()
   "Call `duplicate-dwim` and move cursor appropriately after duplication.
 If duplicating a line, move point to the duplicated line preserving column.
 If duplicating a region, move point to the new duplicated region and then remove the selection."
@@ -314,6 +315,7 @@ If duplicating a region, move point to the new duplicated region and then remove
       (progn
         (forward-line 1)
         (move-to-column col)))))
+
 (defun my/open-repo ()
   "Open git repo in browser"
   (interactive)
@@ -376,6 +378,7 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c v")       #'vundo)
 (define-key my-keys-minor-mode-map (kbd "C-c x")       #'kill-buffer-and-window)
 (define-key my-keys-minor-mode-map (kbd "C-c y")       #'browse-kill-ring)
+(define-key my-keys-minor-mode-map (kbd "C-c t")       #'dired-sidebar-toggle-sidebar)
 (define-key my-keys-minor-mode-map (kbd "M-<up>")      #'drag-stuff-up)
 (define-key my-keys-minor-mode-map (kbd "M-<down>")    #'drag-stuff-down)
 (define-key my-keys-minor-mode-map (kbd "C-S-c C-S-c") #'mc/edit-lines)
@@ -401,6 +404,10 @@ If duplicating a region, move point to the new duplicated region and then remove
 (add-hook 'minibuffer-setup-hook 'disable-my-keys)
 
 (custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(company-tooltip-selection ((t (:background "#0000ff")))))
 
 (setq-default js2-basic-offset 2
