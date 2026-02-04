@@ -174,11 +174,19 @@
   (setq lsp-java-jdt-download-url
         "https://download.eclipse.org/jdtls/milestones/1.44.0/jdt-language-server-1.44.0-202501221502.tar.gz")
 
-  (setq lsp-java-vmargs
-        '("-XX:+UseParallelGC"
-          "-XX:GCTimeRatio=4"
-          "-Xmx2G"
-          "-Xms512m"))
+  (let ((lombok-jar (car (split-string
+                          (shell-command-to-string
+                           "find ~/.gradle/caches -name 'lombok-*.jar' -not -name '*sources*' -not -name '*javadoc*' 2>/dev/null | head -1")
+                          "\n"))))
+    (setq lsp-java-vmargs
+          (append '("-XX:+UseG1GC"
+                    "-XX:MaxGCPauseMillis=200"
+                    "-Xmx4G"
+                    "-Xms2G"
+                    "-XX:+UseStringDeduplication"
+                    "-XX:ReservedCodeCacheSize=512m")
+                  (when (and lombok-jar (file-exists-p lombok-jar))
+                    (list (concat "-javaagent:" lombok-jar))))))
 
   :hook (java-mode . lsp))
 
