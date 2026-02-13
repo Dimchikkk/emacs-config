@@ -20,6 +20,7 @@
                      embark
                      embark-consult
                      exec-path-from-shell
+                     flycheck
                      gruber-darker-theme
                      markdown-preview-mode
                      marginalia
@@ -36,6 +37,7 @@
                      olivetti
                      pretty-mode
                      projectile
+                     pyvenv
                      rainbow-mode
                      sudo-edit
                      typescript-mode
@@ -196,7 +198,36 @@
 (add-hook 'typescript-mode-hook #'lsp)
 
 (add-hook 'c-mode-hook #'lsp)
+
+;; Python: LSP for navigation, mypy for type checking
 (add-hook 'python-mode-hook #'lsp)
+
+;; Auto-activate .venv in project root
+(use-package pyvenv
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (when-let ((venv (locate-dominating-file default-directory ".venv")))
+                           (pyvenv-activate (expand-file-name ".venv" venv))))))
+
+;; Disable all LSP linters, use mypy via flycheck instead
+(with-eval-after-load 'lsp-mode
+  (setq lsp-diagnostics-provider :none)
+  (setq lsp-pylsp-plugins-mypy-enabled nil)
+  (setq lsp-pylsp-plugins-pycodestyle-enabled nil)
+  (setq lsp-pylsp-plugins-pydocstyle-enabled nil)
+  (setq lsp-pylsp-plugins-flake8-enabled nil)
+  (setq lsp-pylsp-plugins-pylint-enabled nil))
+
+;; Configure flycheck to use mypy from project .venv
+(with-eval-after-load 'flycheck
+  (setq-default flycheck-disabled-checkers '(lsp))
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (when-let ((root (locate-dominating-file default-directory "pyproject.toml")))
+                (setq-local flycheck-python-mypy-executable (expand-file-name ".venv/bin/mypy" root))
+                (setq-local flycheck-command-working-directory root))
+              (flycheck-select-checker 'python-mypy))))
+(add-hook 'prog-mode-hook #'flycheck-mode)
 
 (setq buffer-save-without-query t)
 (setq make-backup-files nil)
