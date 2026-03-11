@@ -32,6 +32,7 @@
                      htmlize
                      js2-mode
                      lsp-mode
+                     lsp-pyright
                      lsp-ui
                      magit
                      olivetti
@@ -199,8 +200,12 @@
 
 (add-hook 'c-mode-hook #'lsp)
 
-;; Python: LSP for navigation, mypy for type checking
-(add-hook 'python-mode-hook #'lsp)
+;; Python: lsp-pyright for type checking
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp))))
 
 ;; Auto-activate .venv in project root
 (use-package pyvenv
@@ -208,26 +213,6 @@
   :hook (python-mode . (lambda ()
                          (when-let ((venv (locate-dominating-file default-directory ".venv")))
                            (pyvenv-activate (expand-file-name ".venv" venv))))))
-
-;; Disable all LSP linters, use mypy via flycheck instead
-(with-eval-after-load 'lsp-mode
-  (setq lsp-diagnostics-provider :none)
-  (setq lsp-pylsp-plugins-mypy-enabled nil)
-  (setq lsp-pylsp-plugins-pycodestyle-enabled nil)
-  (setq lsp-pylsp-plugins-pydocstyle-enabled nil)
-  (setq lsp-pylsp-plugins-flake8-enabled nil)
-  (setq lsp-pylsp-plugins-pylint-enabled nil))
-
-;; Configure flycheck to use mypy from project .venv
-(with-eval-after-load 'flycheck
-  (setq-default flycheck-disabled-checkers '(lsp))
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (when-let ((root (locate-dominating-file default-directory "pyproject.toml")))
-                (setq-local flycheck-python-mypy-executable (expand-file-name ".venv/bin/mypy" root))
-                (setq-local flycheck-command-working-directory root))
-              (flycheck-select-checker 'python-mypy))))
-(add-hook 'prog-mode-hook #'flycheck-mode)
 
 (setq buffer-save-without-query t)
 (setq make-backup-files nil)
@@ -283,6 +268,8 @@
 (setq bidi-inhibit-bpa t)
 (setenv "FZF_DEFAULT_COMMAND" "rg --files")
 
+(use-package forge :after magit)
+
 (use-package magit
   :ensure t
   :custom
@@ -310,6 +297,14 @@
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent))
+
+(defun my/review-branch (branch)
+  "Fetch origin, checkout BRANCH from origin as local, show magit diff vs origin/main."
+  (interactive "sBranch: ")
+  (let ((default-directory (magit-toplevel)))
+    (magit-run-git "fetch" "origin")
+    (magit-run-git "checkout" "-B" branch (concat "origin/" branch))
+    (magit-diff-range "origin/main...HEAD" '("--stat"))))
 
 (setq hl-todo-keyword-faces
       '(("TODO"   . "#A020F0")
@@ -428,6 +423,7 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "M-n")         #'next-error)
 (define-key my-keys-minor-mode-map (kbd "C-c f")       #'winner-redo)
 (define-key my-keys-minor-mode-map (kbd "C-c b")       #'winner-undo)
+(define-key my-keys-minor-mode-map (kbd "C-c C-b")     #'my/review-branch)
 (define-key projectile-mode-map (kbd "C-c p")          #'projectile-command-map)
 
 
