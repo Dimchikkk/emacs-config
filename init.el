@@ -378,6 +378,11 @@ If duplicating a region, move point to the new duplicated region and then remove
         (consult-ripgrep nil text))
     (consult-ripgrep)))
 
+(defun my/sidebar-open-and-follow ()
+    (interactive)
+    (dired-sidebar-show-sidebar)
+    (dired-sidebar-follow-file))
+
 (define-key my-keys-minor-mode-map (kbd "C-<return>")  #'compile)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'execute-extended-command)
 (define-key my-keys-minor-mode-map (kbd "C-,")         #'my/duplicate-dwim)
@@ -412,7 +417,7 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c v")       #'vundo)
 (define-key my-keys-minor-mode-map (kbd "C-c x")       #'kill-buffer-and-window)
 (define-key my-keys-minor-mode-map (kbd "C-c y")       #'browse-kill-ring)
-(define-key my-keys-minor-mode-map (kbd "C-c t")       #'dired-sidebar-toggle-sidebar)
+(define-key my-keys-minor-mode-map (kbd "C-c t")       #'my/sidebar-open-and-follow)
 (define-key my-keys-minor-mode-map (kbd "M-<up>")      #'drag-stuff-up)
 (define-key my-keys-minor-mode-map (kbd "M-<down>")    #'drag-stuff-down)
 (define-key my-keys-minor-mode-map (kbd "C-S-c C-S-c") #'mc/edit-lines)
