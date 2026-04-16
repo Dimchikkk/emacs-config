@@ -175,7 +175,7 @@
   :ensure t
   :config
   (setq lsp-java-jdt-download-url
-        "https://download.eclipse.org/jdtls/milestones/1.44.0/jdt-language-server-1.44.0-202501221502.tar.gz")
+        "https://download.eclipse.org/jdtls/milestones/1.57.0/jdt-language-server-1.57.0-202602261110.tar.gz")
 
   (let ((lombok-jar (car (split-string
                           (shell-command-to-string
@@ -268,8 +268,6 @@
 (setq bidi-inhibit-bpa t)
 (setenv "FZF_DEFAULT_COMMAND" "rg --files")
 
-(use-package forge :after magit)
-
 (use-package magit
   :ensure t
   :custom
@@ -299,12 +297,24 @@
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent))
 
 (defun my/review-branch (branch)
-  "Fetch origin, checkout BRANCH from origin as local, show magit diff vs origin/main."
+  "Fetch origin, checkout BRANCH from origin as local, show magit diff vs origin/main excluding test files."
   (interactive "sBranch: ")
   (let ((default-directory (magit-toplevel)))
-    (magit-run-git "fetch" "origin")
-    (magit-run-git "checkout" "-B" branch (concat "origin/" branch))
-    (magit-diff-range "origin/main...HEAD" '("--stat"))))
+    (magit-call-git "fetch" "origin")
+    (magit-call-git "checkout" "-B" branch (concat "origin/" branch))
+    (magit-diff-range
+     "origin/main...HEAD"
+     '("--stat" "--" "." ":(exclude,icase)*test*"))))
+
+(defun my/review-branch-tests-only (branch)
+  "Fetch origin, checkout BRANCH from origin as local, show only test-related changes vs origin/main."
+  (interactive "sBranch: ")
+  (let ((default-directory (magit-toplevel)))
+    (magit-call-git "fetch" "origin")
+    (magit-call-git "checkout" "-B" branch (concat "origin/" branch))
+    (magit-diff-range
+     "origin/main...HEAD"
+     '("--stat" "--" ":(icase)*test*"))))
 
 (setq hl-todo-keyword-faces
       '(("TODO"   . "#A020F0")
@@ -379,9 +389,10 @@ If duplicating a region, move point to the new duplicated region and then remove
     (consult-ripgrep)))
 
 (defun my/sidebar-open-and-follow ()
-    (interactive)
+  (interactive)
+  (let ((dired-sidebar-width (max 30 (min 60 (/ (frame-width) 4)))))
     (dired-sidebar-show-sidebar)
-    (dired-sidebar-follow-file))
+    (dired-sidebar-follow-file)))
 
 (define-key my-keys-minor-mode-map (kbd "C-<return>")  #'compile)
 (define-key my-keys-minor-mode-map (kbd "M-x")         #'execute-extended-command)
@@ -404,7 +415,9 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "C-c C-o")     #'occur)
 (define-key my-keys-minor-mode-map (kbd "M-<return>")  #'consult-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
-(define-key my-keys-minor-mode-map (kbd "C-c d")       #'deadgrep)
+(define-key my-keys-minor-mode-map (kbd "C-c d")       #'my/review-branch)
+(define-key my-keys-minor-mode-map (kbd "C-c D")       #'my/review-branch-tests-only)
+(define-key my-keys-minor-mode-map (kbd "C-c e")       #'deadgrep)
 (define-key my-keys-minor-mode-map (kbd "C-c c")       #'my/consult-ripgrep)
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
 (define-key my-keys-minor-mode-map (kbd "C-c i")       #'consult-imenu)
@@ -428,7 +441,6 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "M-n")         #'next-error)
 (define-key my-keys-minor-mode-map (kbd "C-c f")       #'winner-redo)
 (define-key my-keys-minor-mode-map (kbd "C-c b")       #'winner-undo)
-(define-key my-keys-minor-mode-map (kbd "C-c C-b")     #'my/review-branch)
 (define-key projectile-mode-map (kbd "C-c p")          #'projectile-command-map)
 
 
