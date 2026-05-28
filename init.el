@@ -296,25 +296,18 @@
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
   (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent))
 
-(defun my/review-branch (branch)
-  "Fetch origin, checkout BRANCH from origin as local, show magit diff vs origin/main excluding test files."
-  (interactive "sBranch: ")
-  (let ((default-directory (magit-toplevel)))
-    (magit-call-git "fetch" "origin")
-    (magit-call-git "checkout" "-B" branch (concat "origin/" branch))
-    (magit-diff-range
-     "origin/main...HEAD"
-     '("--stat" "--" "." ":(exclude,icase)*test*"))))
+(load "~/.emacs.d/magit-claude.el")
 
-(defun my/review-branch-tests-only (branch)
-  "Fetch origin, checkout BRANCH from origin as local, show only test-related changes vs origin/main."
+(defun my/review-branch (branch)
+  "Fetch origin, checkout BRANCH from origin as local, show full magit diff vs origin/main."
   (interactive "sBranch: ")
   (let ((default-directory (magit-toplevel)))
     (magit-call-git "fetch" "origin")
     (magit-call-git "checkout" "-B" branch (concat "origin/" branch))
     (magit-diff-range
      "origin/main...HEAD"
-     '("--stat" "--" ":(icase)*test*"))))
+     '("--stat"))))
+
 
 (setq hl-todo-keyword-faces
       '(("TODO"   . "#A020F0")
@@ -416,7 +409,6 @@ If duplicating a region, move point to the new duplicated region and then remove
 (define-key my-keys-minor-mode-map (kbd "M-<return>")  #'consult-buffer)
 (define-key my-keys-minor-mode-map (kbd "C-c a")       #'align-regexp)
 (define-key my-keys-minor-mode-map (kbd "C-c d")       #'my/review-branch)
-(define-key my-keys-minor-mode-map (kbd "C-c D")       #'my/review-branch-tests-only)
 (define-key my-keys-minor-mode-map (kbd "C-c e")       #'deadgrep)
 (define-key my-keys-minor-mode-map (kbd "C-c c")       #'my/consult-ripgrep)
 (define-key my-keys-minor-mode-map (kbd "C-c h")       #'lsp-execute-code-action)
